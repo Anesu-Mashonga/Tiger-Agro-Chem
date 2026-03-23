@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products - Tiger Agrochem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20">
+          <div class="flex items-center">
+            <a href="index.html" class="flex items-center space-x-3">
+              <div class="bg-emerald-600 p-2 rounded-lg">
+                <i data-lucide="leaf" class="h-8 w-8 text-white"></i>
+              </div>
+              <div>
+                <h1 class="text-2xl font-bold text-emerald-800">
+                  Tiger Agrochem
+                </h1>
+                <p class="text-xs text-emerald-600 font-medium">
+                  Agricultural Excellence
+                </p>
+              </div>
+            </a>
+          </div>
+
+          <div class="hidden md:flex items-center space-x-8">
+            <a
+              href="index.html"
+              class="text-gray-600 hover:text-emerald-600 font-medium transition"
+              >Home</a
+            >
+            <a
+              href="products.html"
+              class="text-emerald-700 font-semibold border-b-2 border-emerald-600"
+              >Products</a
+            >
+            <a
+              href="crop-guidelines.html"
+              class="text-gray-600 hover:text-emerald-600 font-medium transition"
+              >Crop Guidelines</a
+            >
+            <a
+              href="events.html"
+              class="text-gray-600 hover:text-emerald-600 font-medium transition"
+              >Events</a
+            >
+            <a
+              href="testimonials.html"
+              class="text-gray-600 hover:text-emerald-600 font-medium transition"
+              >Testimonials</a
+            >
+            <a
+              href="admin.html"
+              class="bg-amber-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-amber-600 transition shadow-md"
+              >Admin</a
+            >
+          </div>
+
+          <div class="md:hidden flex items-center">
+            <button
+              onclick="toggleMobileMenu()"
+              class="text-gray-600 hover:text-emerald-600 focus:outline-none"
+            >
+              <i data-lucide="menu" class="h-6 w-6"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <a
+            href="index.html"
+            class="block px-3 py-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-md"
+            >Home</a
+          >
+          <a
+            href="products.html"
+            class="block px-3 py-2 text-emerald-700 font-semibold bg-emerald-50 rounded-md"
+            >Products</a
+          >
+          <a
+            href="crop-guidelines.html"
+            class="block px-3 py-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-md"
+            >Crop Guidelines</a
+          >
+          <a
+            href="events.html"
+            class="block px-3 py-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-md"
+            >Events</a
+          >
+          <a
+            href="testimonials.html"
+            class="block px-3 py-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-md"
+            >Testimonials</a
+          >
+          <a
+            href="admin.html"
+            class="block px-3 py-2 text-amber-600 font-semibold hover:bg-amber-50 rounded-md"
+            >Admin Panel</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="bg-emerald-800 text-white py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Our Products</h1>
+        <p class="text-xl text-emerald-100 max-w-2xl">
+          Browse our comprehensive range of agricultural inputs designed to
+          maximize your farm productivity.
+        </p>
+      </div>
+    </div>
+
+    <!-- Products Section -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-4 mb-8">
+        <button
+          onclick="filterProducts('all')"
+          class="filter-btn active bg-emerald-600 text-white px-6 py-2 rounded-full font-medium transition"
+          data-category="all"
+        >
+          All Products
+        </button>
+        <button
+          onclick="filterProducts('Fertilizers')"
+          class="filter-btn bg-white text-gray-600 border border-gray-300 px-6 py-2 rounded-full font-medium hover:bg-emerald-50 transition"
+          data-category="Fertilizers"
+        >
+          Fertilizers
+        </button>
+        <button
+          onclick="filterProducts('Seeds')"
+          class="filter-btn bg-white text-gray-600 border border-gray-300 px-6 py-2 rounded-full font-medium hover:bg-emerald-50 transition"
+          data-category="Seeds"
+        >
+          Seeds
+        </button>
+        <button
+          onclick="filterProducts('Crop Protection')"
+          class="filter-btn bg-white text-gray-600 border border-gray-300 px-6 py-2 rounded-full font-medium hover:bg-emerald-50 transition"
+          data-category="Crop Protection"
+        >
+          Crop Protection
+        </button>
+        <button
+          onclick="filterProducts('Equipment')"
+          class="filter-btn bg-white text-gray-600 border border-gray-300 px-6 py-2 rounded-full font-medium hover:bg-emerald-50 transition"
+          data-category="Equipment"
+        >
+          Equipment
+        </button>
+      </div>
+
+      <!-- Search -->
+      <div class="mb-8">
+        <div class="relative max-w-md">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search products..."
+            onkeyup="searchProducts()"
+            class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500"
+          />
+          <i
+            data-lucide="search"
+            class="absolute left-4 top-3.5 h-5 w-5 text-gray-400"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div
+        id="products-grid"
+        class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      >
+        <!-- Products loaded dynamically -->
+      </div>
+
+      <!-- No Results -->
+      <div id="no-results" class="hidden text-center py-12">
+        <i
+          data-lucide="package-x"
+          class="h-16 w-16 text-gray-300 mx-auto mb-4"
+        ></i>
+        <p class="text-gray-500 text-lg">
+          No products found matching your criteria.
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12 mt-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <p>&copy; 2026 Tiger Agrochem. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      lucide.createIcons();
+
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.toggle("hidden");
+      }
+
+      // Initialize default products if none exist
+      function initializeDefaultProducts() {
+        if (!localStorage.getItem("products")) {
+          const defaultProducts = [
+            {
+              id: 1,
+              name: "Premium NPK 23-23-0",
+              category: "Fertilizers",
+              price: "$45.00",
+              image: "http://static.photos/agriculture/640x360/20",
+              description: "Balanced fertilizer for optimal growth",
+            },
+            {
+              id: 2,
+              name: "Maize Seed SC 719",
+              category: "Seeds",
+              price: "$28.50",
+              image: "http://static.photos/nature/640x360/21",
+              description: "High-yield hybrid maize variety",
+            },
+            {
+              id: 3,
+              name: "Glyphosate 480 SL",
+              category: "Crop Protection",
+              price: "$35.00",
+              image: "http://static.photos/industry/640x360/22",
+              description: "Broad-spectrum herbicide",
+            },
+            {
+              id: 4,
+              name: "Knapsack Sprayer 16L",
+              category: "Equipment",
+              price: "$65.00",
+              image: "http://static.photos/technology/640x360/23",
+              description: "Professional spraying equipment",
+            },
+            {
+              id: 5,
+              name: "Ammonium Nitrate",
+              category: "Fertilizers",
+              price: "$38.00",
+              image: "http://static.photos/agriculture/640x360/24",
+              description: "Nitrogen-rich fertilizer",
+            },
+            {
+              id: 6,
+              name: "Soya Bean Seeds",
+              category: "Seeds",
+              price: "$32.00",
+              image: "http://static.photos/nature/640x360/25",
+              description: "Drought-resistant variety",
+            },
+            {
+              id: 7,
+              name: "Fungicide Mancozeb",
+              category: "Crop Protection",
+              price: "$25.00",
+              image: "http://static.photos/industry/640x360/26",
+              description: "Protective fungicide",
+            },
+            {
+              id: 8,
+              name: "Wheel Hoe",
+              category: "Equipment",
+              price: "$45.00",
+              image: "http://static.photos/agriculture/640x360/27",
+              description: "Manual cultivation tool",
+            },
+          ];
+          localStorage.setItem("products", JSON.stringify(defaultProducts));
+        }
+      }
+
+      let currentCategory = "all";
+      let searchTerm = "";
+
+      function loadProducts() {
+        const products = JSON.parse(localStorage.getItem("products") || "[]");
+        const container = document.getElementById("products-grid");
+        const noResults = document.getElementById("no-results");
+
+        let filtered = products;
+
+        if (currentCategory !== "all") {
+          filtered = filtered.filter((p) => p.category === currentCategory);
+        }
+
+        if (searchTerm) {
+          filtered = filtered.filter(
+            (p) =>
+              p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              p.description.toLowerCase().includes(searchTerm.toLowerCase()),
+          );
+        }
+
+        if (filtered.length === 0) {
+          container.innerHTML = "";
+          noResults.classList.remove("hidden");
+        } else {
+          noResults.classList.add("hidden");
+          container.innerHTML = filtered
+            .map(
+              (product) => `
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-gray-100">
+                        <div class="relative">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                            <span class="absolute top-4 right-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-bold">${product.category}</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">${product.name}</h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">${product.description}</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                                <span class="text-2xl font-bold text-emerald-700">${product.price}</span>
+                                <button onclick="inquireProduct('${product.name}')" class="bg-amber-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-amber-600 transition text-sm">
+                                    Inquire
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `,
+            )
+            .join("");
+        }
+
+        lucide.createIcons();
+      }
+
+      function filterProducts(category) {
+        currentCategory = category;
+
+        // Update button styles
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          if (btn.dataset.category === category) {
+            btn.classList.remove(
+              "bg-white",
+              "text-gray-600",
+              "border",
+              "border-gray-300",
+            );
+            btn.classList.add("bg-emerald-600", "text-white");
+          } else {
+            btn.classList.add(
+              "bg-white",
+              "text-gray-600",
+              "border",
+              "border-gray-300",
+            );
+            btn.classList.remove("bg-emerald-600", "text-white");
+          }
+        });
+
+        loadProducts();
+      }
+
+      function searchProducts() {
+        searchTerm = document.getElementById("search-input").value;
+        loadProducts();
+      }
+
+      function inquireProduct(productName) {
+        alert(
+          `Thank you for your interest in ${productName}. Please contact us at +263 123 456 789 or visit our store.`,
+        );
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeDefaultProducts();
+        loadProducts();
+      });
+    </script>
+  </body>
+</html>
