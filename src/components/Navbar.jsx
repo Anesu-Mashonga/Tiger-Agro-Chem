@@ -40,11 +40,16 @@ function Navbar() {
                 key={item.to}
                 to={item.to}
                 end={item.to === "/"}
-                className={({ isActive }) =>
-                  isActive
+                className={({ isActive }) => {
+                  if (item.label === "Admin") {
+                    return isActive
+                      ? "bg-amber-600 text-white px-4 py-2 rounded-full font-semibold"
+                      : "bg-amber-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-amber-600 transition";
+                  }
+                  return isActive
                     ? "text-emerald-700 font-semibold border-b-2 border-emerald-600 pb-1"
-                    : "text-gray-600 hover:text-emerald-600 font-medium transition"
-                }
+                    : "text-gray-600 hover:text-emerald-600 font-medium transition";
+                }}
               >
                 {item.label}
               </NavLink>
@@ -77,11 +82,16 @@ function Navbar() {
               key={item.to}
               to={item.to}
               onClick={() => setMobileOpen(false)}
-              className={({ isActive }) =>
-                isActive
+              className={({ isActive }) => {
+                if (item.label === "Admin") {
+                  return isActive
+                    ? "block px-3 py-2 text-white font-semibold bg-amber-600 rounded-md"
+                    : "block px-3 py-2 text-white bg-amber-500 rounded-md hover:bg-amber-600";
+                }
+                return isActive
                   ? "block px-3 py-2 text-emerald-700 font-semibold bg-emerald-50 rounded-md"
-                  : "block px-3 py-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-md"
-              }
+                  : "block px-3 py-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-md";
+              }}
             >
               {item.label}
             </NavLink>

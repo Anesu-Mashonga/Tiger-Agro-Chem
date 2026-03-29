@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:1337/api";
-const PRODUCTS_API = `${API_BASE_URL}/products`;
+  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:1337";
+const API_URL = API_BASE_URL.replace(/\/+$/, "");
+const API_HOST = API_URL.replace(/\/api$/, "");
+const PRODUCTS_API = API_URL.includes("/api")
+  ? `${API_URL}/products`
+  : `${API_URL}/api/products`;
 
 const categories = [
   "all",
-  "Fertilizers",
-  "Seeds",
-  "Crop Protection",
-  "Equipment",
+  "Fungicides",
+  "Insecticides",
+  "Herbicides",
+  "Nematicides",
+  "Acaricides",
+  "Plant growth regulators",
+  "Biostimulators",
 ];
 
 function ProductsPage() {
@@ -17,24 +24,37 @@ function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
 
+  const formatPrice = (value) => {
+    if (value === null || value === undefined || value === "") return "";
+    const parsed = Number(value);
+    return Number.isNaN(parsed) ? "" : `$${parsed.toFixed(2)}`;
+  };
+
   useEffect(() => {
     const normalizeImage = (image) => {
       if (!image) return "";
       if (typeof image === "string") return image;
-      const url = image.url || image?.data?.attributes?.url || image?.data?.url;
+      const url =
+        image.url ||
+        image?.data?.attributes?.url ||
+        image?.data?.url ||
+        image?.data?.attributes?.formats?.large?.url ||
+        image?.data?.attributes?.formats?.medium?.url ||
+        image?.data?.attributes?.formats?.small?.url ||
+        image?.data?.attributes?.formats?.thumbnail?.url;
       if (!url) return "";
-      return url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
+      return url.startsWith("http") ? url : `${API_HOST}${url}`;
     };
 
     const normalizeProduct = (product) => {
       const attrs = product.attributes || product;
       return {
         id: product.id || attrs.id,
-        name: attrs.name || "",
-        category: attrs.category || "",
-        price: attrs.price || "",
-        image: normalizeImage(attrs.image),
-        description: attrs.description || "",
+        name: attrs.Name || attrs.name || attrs.Title || attrs.title || "",
+        category: attrs.category || attrs.Category || "",
+        price: formatPrice(attrs.Price ?? attrs.price ?? ""),
+        image: normalizeImage(attrs.Image || attrs.image),
+        description: attrs.Description || attrs.description || "",
       };
     };
 
@@ -59,14 +79,15 @@ function ProductsPage() {
   }, []);
 
   const filteredProducts = products
-    .filter(
-      (product) =>
-        currentCategory === "all" || product.category === currentCategory,
-    )
-    .filter(
-      (product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase()),
+    .filter((product) => {
+      if (currentCategory === "all") return true;
+      return (
+        product.category?.toString().trim().toLowerCase() ===
+        currentCategory.toLowerCase()
+      );
+    })
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
   const handleInquire = (name) => {
@@ -109,15 +130,17 @@ function ProductsPage() {
         </div>
 
         <div className="mb-8">
-          <div className="relative max-w-md">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search products..."
-              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500"
-            />
-            <span className="absolute left-4 top-3.5 text-gray-400">🔍</span>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="relative w-full max-w-md">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search products..."
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-emerald-500"
+              />
+              <span className="absolute left-4 top-3.5 text-gray-400">🔍</span>
+            </div>
           </div>
         </div>
 
