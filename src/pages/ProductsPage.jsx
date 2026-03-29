@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { initializeStorage, readStorage } from "../utils/storage";
-import { defaultProducts } from "../data/defaultData";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:1337/api";
+const PRODUCTS_API = `${API_BASE_URL}/products`;
 
 const categories = [
   "all",
@@ -16,8 +18,44 @@ function ProductsPage() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    initializeStorage("products", defaultProducts);
-    setProducts(readStorage("products", defaultProducts));
+    const normalizeImage = (image) => {
+      if (!image) return "";
+      if (typeof image === "string") return image;
+      const url = image.url || image?.data?.attributes?.url || image?.data?.url;
+      if (!url) return "";
+      return url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
+    };
+
+    const normalizeProduct = (product) => {
+      const attrs = product.attributes || product;
+      return {
+        id: product.id || attrs.id,
+        name: attrs.name || "",
+        category: attrs.category || "",
+        price: attrs.price || "",
+        image: normalizeImage(attrs.image),
+        description: attrs.description || "",
+      };
+    };
+
+    const normalizeResponse = (data) => {
+      if (!data) return [];
+      const items = Array.isArray(data) ? data : data.data || [];
+      return items.map(normalizeProduct);
+    };
+
+    fetch(PRODUCTS_API)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to fetch products (${res.status})`);
+        }
+        return res.json();
+      })
+      .then((json) => setProducts(normalizeResponse(json)))
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+        setProducts([]);
+      });
   }, []);
 
   const filteredProducts = products

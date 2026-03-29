@@ -13,23 +13,64 @@ import {
 } from "lucide-react";
 import { initializeStorage, readStorage } from "../utils/storage";
 import {
-  defaultProducts,
   defaultEvents,
   defaultGuidelines,
   defaultTestimonials,
 } from "../data/defaultData";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:1337/api";
+const PRODUCTS_API = `${API_BASE_URL}/products`;
+
 function HomePage() {
   const [isContactOpen, setContactOpen] = useState(false);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    initializeStorage("products", defaultProducts);
+    const normalizeImage = (image) => {
+      if (!image) return "";
+      if (typeof image === "string") return image;
+      const url = image.url || image?.data?.attributes?.url || image?.data?.url;
+      if (!url) return "";
+      return url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
+    };
+
+    const normalizeProduct = (product) => {
+      const attrs = product.attributes || product;
+      return {
+        id: product.id || attrs.id,
+        name: attrs.name || "",
+        category: attrs.category || "",
+        price: attrs.price || "",
+        image: normalizeImage(attrs.image),
+        description: attrs.description || "",
+      };
+    };
+
+    const normalizeResponse = (data) => {
+      if (!data) return [];
+      const items = Array.isArray(data) ? data : data.data || [];
+      return items.map(normalizeProduct);
+    };
+
+    fetch(PRODUCTS_API)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to fetch products (${res.status})`);
+        }
+        return res.json();
+      })
+      .then((json) => setProducts(normalizeResponse(json).slice(0, 3)))
+      .catch((error) => {
+        console.error("Error fetching home products:", error);
+        setProducts([]);
+      });
+
     initializeStorage("events", defaultEvents);
     initializeStorage("guidelines", defaultGuidelines);
     initializeStorage("testimonials", defaultTestimonials);
   }, []);
 
-  const products = readStorage("products", defaultProducts).slice(0, 3);
   const events = readStorage("events", defaultEvents).slice(0, 2);
   const testimonials = readStorage("testimonials", defaultTestimonials).slice(
     0,
