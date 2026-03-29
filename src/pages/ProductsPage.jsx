@@ -53,7 +53,7 @@ function ProductsPage() {
         name: attrs.Name || attrs.name || attrs.Title || attrs.title || "",
         category: attrs.category || attrs.Category || "",
         price: formatPrice(attrs.Price ?? attrs.price ?? ""),
-        image: normalizeImage(attrs.Image || attrs.image),
+        image: normalizeImage(attrs.product_image),
         description: attrs.Description || attrs.description || "",
       };
     };
@@ -64,7 +64,7 @@ function ProductsPage() {
       return items.map(normalizeProduct);
     };
 
-    fetch(PRODUCTS_API)
+    fetch(`${PRODUCTS_API}?populate=product_image`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to fetch products (${res.status})`);

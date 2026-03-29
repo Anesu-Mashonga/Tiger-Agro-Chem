@@ -42,7 +42,7 @@ function HomePage() {
         name: attrs.name || "",
         category: attrs.category || "",
         price: attrs.price || "",
-        image: normalizeImage(attrs.image),
+        image: normalizeImage(attrs.product_image),
         description: attrs.description || "",
       };
     };
@@ -53,7 +53,7 @@ function HomePage() {
       return items.map(normalizeProduct);
     };
 
-    fetch(PRODUCTS_API)
+    fetch(`${PRODUCTS_API}?populate=product_image`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to fetch products (${res.status})`);
