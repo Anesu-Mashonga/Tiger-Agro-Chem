@@ -194,7 +194,7 @@ export const defaultTestimonials = [
     name: 'Sarah Ndlovu',
     role: 'Small Scale Farmer',
     content:
-      'Excellent customer service and quality products. The crop guidelines are incredibly helpful.',
+      'Excellent customer service and quality products. The Crop protection Scheme are incredibly helpful.',
     rating: 5,
   },
   {

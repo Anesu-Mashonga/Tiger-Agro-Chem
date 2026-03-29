@@ -5,7 +5,7 @@ import { Leaf, Menu, X } from "lucide-react";
 const navItems = [
   { to: "/", label: "Home" },
   { to: "/products", label: "Products" },
-  { to: "/guidelines", label: "Crop Guidelines" },
+  { to: "/guidelines", label: "Crop protection Scheme" },
   { to: "/events", label: "Events" },
   { to: "/testimonials", label: "Testimonials" },
   { to: "/admin", label: "Admin" },
@@ -20,9 +20,11 @@ function Navbar() {
         <div className="flex justify-between h-20">
           <div className="flex items-center">
             <NavLink to="/" className="flex items-center space-x-3">
-              <div className="bg-emerald-600 p-2 rounded-lg">
-                <Leaf className="h-8 w-8 text-white" />
-              </div>
+              <img
+                src="/assets/Tiger%20Agro%20Chem%20log.jpg"
+                alt="Tiger Agro Chem logo"
+                className="h-10 w-auto rounded-lg"
+              />
               <div>
                 <h1 className="text-2xl font-bold text-emerald-800">
                   Tiger Agrochem

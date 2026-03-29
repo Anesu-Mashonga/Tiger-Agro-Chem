@@ -19,38 +19,58 @@ import {
 } from "../data/defaultData";
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:1337/api";
-const PRODUCTS_API = `${API_BASE_URL}/products`;
+  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:1337";
+const API_URL = API_BASE_URL.replace(/\/+$/, "");
+const API_HOST = API_URL.replace(/\/api$/, "");
+const PRODUCTS_API = API_URL.includes("/api")
+  ? `${API_URL}/products`
+  : `${API_URL}/api/products`;
 
 function HomePage() {
   const [isContactOpen, setContactOpen] = useState(false);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    const formatPrice = (value) => {
+      if (value === null || value === undefined || value === "") return "";
+      const parsed = Number(value);
+      return Number.isNaN(parsed) ? "" : `$${parsed.toFixed(2)}`;
+    };
+
     const normalizeImage = (image) => {
       if (!image) return "";
       if (typeof image === "string") return image;
-      const url = image.url || image?.data?.attributes?.url || image?.data?.url;
+      const url =
+        image.url ||
+        image?.data?.attributes?.url ||
+        image?.data?.url ||
+        image?.data?.attributes?.formats?.large?.url ||
+        image?.data?.attributes?.formats?.medium?.url ||
+        image?.data?.attributes?.formats?.small?.url ||
+        image?.data?.attributes?.formats?.thumbnail?.url;
       if (!url) return "";
-      return url.startsWith("http") ? url : `${API_BASE_URL}${url}`;
+      return url.startsWith("http") ? url : `${API_HOST}${url}`;
     };
 
     const normalizeProduct = (product) => {
       const attrs = product.attributes || product;
       return {
         id: product.id || attrs.id,
-        name: attrs.name || "",
-        category: attrs.category || "",
-        price: attrs.price || "",
+        name: attrs.Name || attrs.name || attrs.Title || attrs.title || "",
+        category: attrs.category || attrs.Category || "",
+        price: formatPrice(attrs.Price ?? attrs.price ?? ""),
         image: normalizeImage(attrs.product_image),
-        description: attrs.description || "",
+        description: attrs.Description || attrs.description || "",
+        createdAt: attrs.createdAt || product.createdAt || "",
       };
     };
 
     const normalizeResponse = (data) => {
       if (!data) return [];
       const items = Array.isArray(data) ? data : data.data || [];
-      return items.map(normalizeProduct);
+      return items
+        .map(normalizeProduct)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     };
 
     fetch(`${PRODUCTS_API}?populate=product_image`)
@@ -268,7 +288,7 @@ function HomePage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="uppercase text-amber-200 font-semibold mb-4">
-                Crop Guidelines
+                Crop protection Scheme
               </p>
               <h2 className="text-4xl font-bold mb-4">
                 Trusted advice for stronger yields
@@ -281,7 +301,7 @@ function HomePage() {
                 to="/guidelines"
                 className="bg-white text-emerald-700 px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition shadow-lg"
               >
-                Read Guidelines
+                Read Crop protection Scheme
               </Link>
             </div>
             <div className="grid grid-cols-2 gap-4">
