@@ -14,7 +14,12 @@ function TestimonialsPage() {
       const attrs = item.attributes || item;
       return {
         id: item.id || attrs.id,
-        name: attrs.name || attrs.Name || attrs.title || attrs.fullName || "Anonymous",
+        name:
+          attrs.name ||
+          attrs.Name ||
+          attrs.title ||
+          attrs.fullName ||
+          "Anonymous",
         role:
           attrs.profession ||
           attrs.Profession ||
@@ -37,7 +42,8 @@ function TestimonialsPage() {
           0,
           Math.min(
             5,
-            Math.round((Number(attrs.rating ?? attrs.Rating ?? 0) || 0) * 2) / 2,
+            Math.round((Number(attrs.rating ?? attrs.Rating ?? 0) || 0) * 2) /
+              2,
           ),
         ),
       };
@@ -70,7 +76,10 @@ function TestimonialsPage() {
   }, []);
 
   const renderRatingStars = (rating) => {
-    const value = Math.max(0, Math.min(5, Math.round((Number(rating) || 0) * 2) / 2));
+    const value = Math.max(
+      0,
+      Math.min(5, Math.round((Number(rating) || 0) * 2) / 2),
+    );
     const fullStars = Math.floor(value);
     const hasHalfStar = value % 1 === 0.5;
     return [
@@ -78,12 +87,7 @@ function TestimonialsPage() {
         <Star key={`full-${index}`} className="h-5 w-5 text-amber-400" />
       )),
       ...(hasHalfStar
-        ? [
-            <StarHalf
-              key="half"
-              className="h-5 w-5 text-amber-400"
-            />,
-          ]
+        ? [<StarHalf key="half" className="h-5 w-5 text-amber-400" />]
         : []),
     ];
   };
