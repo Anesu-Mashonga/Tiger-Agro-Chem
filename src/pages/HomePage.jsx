@@ -12,23 +12,16 @@ import {
   X,
 } from "lucide-react";
 import { initializeStorage, readStorage } from "../utils/storage";
-import {
-  defaultEvents,
-  defaultGuidelines,
-  defaultTestimonials,
-} from "../data/defaultData";
+import { defaultEvents, defaultTestimonials } from "../data/defaultData";
+import { API_HOST, buildApiUrl } from "../utils/api";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:1337";
-const API_URL = API_BASE_URL.replace(/\/+$/, "");
-const API_HOST = API_URL.replace(/\/api$/, "");
-const PRODUCTS_API = API_URL.includes("/api")
-  ? `${API_URL}/products`
-  : `${API_URL}/api/products`;
+const PRODUCTS_API = buildApiUrl("products");
+const GUIDELINES_API = buildApiUrl("guidelines");
 
 function HomePage() {
   const [isContactOpen, setContactOpen] = useState(false);
   const [products, setProducts] = useState([]);
+  const [guidelines, setGuidelines] = useState([]);
 
   useEffect(() => {
     const formatPrice = (value) => {
@@ -40,15 +33,21 @@ function HomePage() {
     const normalizeImage = (image) => {
       if (!image) return "";
       if (typeof image === "string") return image;
+
+      let asset = Array.isArray(image) ? image[0] : image;
+      if (asset?.data) {
+        asset = Array.isArray(asset.data) ? asset.data[0] : asset.data;
+      }
+      const attrs = asset?.attributes || asset;
       const url =
-        image.url ||
-        image?.data?.attributes?.url ||
-        image?.data?.url ||
-        image?.data?.attributes?.formats?.large?.url ||
-        image?.data?.attributes?.formats?.medium?.url ||
-        image?.data?.attributes?.formats?.small?.url ||
-        image?.data?.attributes?.formats?.thumbnail?.url;
+        attrs?.url ||
+        attrs?.data?.url ||
+        attrs?.formats?.large?.url ||
+        attrs?.formats?.medium?.url ||
+        attrs?.formats?.small?.url ||
+        attrs?.formats?.thumbnail?.url;
       if (!url) return "";
+      if (url.startsWith("//")) return `https:${url}`;
       return url.startsWith("http") ? url : `${API_HOST}${url}`;
     };
 
@@ -73,6 +72,56 @@ function HomePage() {
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     };
 
+    const normalizeGuideline = (item) => {
+      const attrs = item.attributes || item;
+      const normalizeImage = (image) => {
+        if (!image) return "";
+        if (typeof image === "string") return image;
+
+        let asset = Array.isArray(image) ? image[0] : image;
+        if (asset?.data) {
+          asset = Array.isArray(asset.data) ? asset.data[0] : asset.data;
+        }
+        const imgAttrs = asset?.attributes || asset;
+        const url =
+          imgAttrs?.url ||
+          imgAttrs?.data?.url ||
+          imgAttrs?.formats?.large?.url ||
+          imgAttrs?.formats?.medium?.url ||
+          imgAttrs?.formats?.small?.url ||
+          imgAttrs?.formats?.thumbnail?.url;
+        if (!url) return "";
+        if (url.startsWith("//")) return `https:${url}`;
+        return url.startsWith("http") ? url : `${API_HOST}${url}`;
+      };
+
+      return {
+        id: item.id || attrs.id,
+        title: attrs.title || attrs.Title || "",
+        category: attrs.category || attrs.Category || "",
+        image: normalizeImage(attrs.image),
+        excerpt:
+          attrs.excerpt ||
+          attrs.Excerpt ||
+          attrs.description ||
+          attrs.Description ||
+          "",
+        content:
+          attrs.content ||
+          attrs.Content ||
+          attrs.description ||
+          attrs.Description ||
+          "",
+        pdfUrl: attrs.pdfUrl || attrs.pdf_url || attrs.pdf || "",
+      };
+    };
+
+    const normalizeGuidelinesResponse = (data) => {
+      if (!data) return [];
+      const items = Array.isArray(data) ? data : data.data || [];
+      return items.map(normalizeGuideline);
+    };
+
     fetch(`${PRODUCTS_API}?populate=product_image`)
       .then((res) => {
         if (!res.ok) {
@@ -86,8 +135,20 @@ function HomePage() {
         setProducts([]);
       });
 
+    fetch(`${GUIDELINES_API}?populate=*`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to fetch guidelines (${res.status})`);
+        }
+        return res.json();
+      })
+      .then((json) => setGuidelines(normalizeGuidelinesResponse(json)))
+      .catch((error) => {
+        console.error("Error fetching home guidelines:", error);
+        setGuidelines([]);
+      });
+
     initializeStorage("events", defaultEvents);
-    initializeStorage("guidelines", defaultGuidelines);
     initializeStorage("testimonials", defaultTestimonials);
   }, []);
 
@@ -96,7 +157,7 @@ function HomePage() {
     0,
     3,
   );
-  const guidelines = readStorage("guidelines", defaultGuidelines).slice(0, 4);
+  const homeGuidelines = guidelines.slice(0, 4);
 
   const handleContactSubmit = (event) => {
     event.preventDefault();
@@ -305,7 +366,7 @@ function HomePage() {
               </Link>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {guidelines.map((guideline) => (
+              {homeGuidelines.map((guideline) => (
                 <div
                   key={guideline.id}
                   className="bg-white rounded-3xl overflow-hidden shadow-xl"

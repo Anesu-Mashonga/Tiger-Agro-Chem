@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
+import { buildApiUrl } from "../utils/api";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:1337";
-const API_URL = API_BASE_URL.replace(/\/+$/, "");
-const API_HOST = API_URL.replace(/\/api$/, "");
-const PRODUCTS_API = API_URL.includes("/api")
-  ? `${API_URL}/products`
-  : `${API_URL}/api/products`;
+const PRODUCTS_API = buildApiUrl("products");
 
 const categories = [
   "all",

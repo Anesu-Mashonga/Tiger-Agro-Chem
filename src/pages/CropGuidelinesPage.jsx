@@ -6,25 +6,90 @@ import {
   FlaskConical,
   ArrowRight,
 } from "lucide-react";
-import { initializeStorage, readStorage } from "../utils/storage";
-import { defaultGuidelines } from "../data/defaultData";
+import { API_HOST, buildApiUrl } from "../utils/api";
 
 const categories = ["all", "Planting", "Pest Control", "Fertilization"];
+const GUIDELINES_API = buildApiUrl("guidelines");
 
 function CropGuidelinesPage() {
   const [currentFilter, setCurrentFilter] = useState("all");
   const [guidelines, setGuidelines] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedGuideline, setSelectedGuideline] = useState(null);
 
   useEffect(() => {
-    initializeStorage("guidelines", defaultGuidelines);
-    setGuidelines(readStorage("guidelines", defaultGuidelines));
+    const normalizeImage = (image) => {
+      if (!image) return "";
+      if (typeof image === "string") return image;
+
+      let asset = Array.isArray(image) ? image[0] : image;
+      if (asset?.data) {
+        asset = Array.isArray(asset.data) ? asset.data[0] : asset.data;
+      }
+      const attrs = asset?.attributes || asset;
+      const url =
+        attrs?.url ||
+        attrs?.data?.url ||
+        attrs?.formats?.large?.url ||
+        attrs?.formats?.medium?.url ||
+        attrs?.formats?.small?.url ||
+        attrs?.formats?.thumbnail?.url;
+      if (!url) return "";
+      if (url.startsWith("//")) return `https:${url}`;
+      return url.startsWith("http") ? url : `${API_HOST}${url}`;
+    };
+
+    const normalizeGuideline = (item) => {
+      const attrs = item.attributes || item;
+      return {
+        id: item.id || attrs.id,
+        title: attrs.title || attrs.Title || "",
+        category: attrs.category || attrs.Category || "",
+        image: normalizeImage(attrs.image),
+        excerpt:
+          attrs.excerpt ||
+          attrs.Excerpt ||
+          attrs.description ||
+          attrs.Description ||
+          "",
+        content:
+          attrs.content ||
+          attrs.Content ||
+          attrs.description ||
+          attrs.Description ||
+          "",
+        pdfUrl: attrs.pdfUrl || attrs.pdf_url || attrs.pdf || "",
+      };
+    };
+
+    const normalizeGuidelinesResponse = (data) => {
+      if (!data) return [];
+      const items = Array.isArray(data) ? data : data.data || [];
+      return items.map(normalizeGuideline);
+    };
+
+    fetch(`${GUIDELINES_API}?populate=*`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to fetch guidelines (${res.status})`);
+        }
+        return res.json();
+      })
+      .then((json) => setGuidelines(normalizeGuidelinesResponse(json)))
+      .catch((error) => {
+        console.error("Error fetching crop guidelines:", error);
+        setGuidelines([]);
+      });
   }, []);
 
-  const filteredGuidelines =
-    currentFilter === "all"
-      ? guidelines
-      : guidelines.filter((guideline) => guideline.category === currentFilter);
+  const filteredGuidelines = guidelines.filter((guideline) => {
+    const matchesCategory =
+      currentFilter === "all" || guideline.category === currentFilter;
+    const matchesSearch = guideline.title
+      .toLowerCase()
+      .includes(searchTerm.trim().toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   const iconMap = {
     all: LayoutGrid,
@@ -77,6 +142,20 @@ function CropGuidelinesPage() {
           })}
         </div>
 
+        <div className="mb-8">
+          <label htmlFor="guideline-search" className="sr-only">
+            Search schemes
+          </label>
+          <input
+            id="guideline-search"
+            type="search"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Search schemes by name..."
+            className="w-full rounded-full border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+          />
+        </div>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredGuidelines.map((guideline) => (
             <div
@@ -109,6 +188,11 @@ function CropGuidelinesPage() {
             </div>
           ))}
         </div>
+        {filteredGuidelines.length === 0 && (
+          <div className="mt-8 text-center text-slate-500">
+            No schemes match your search.
+          </div>
+        )}
       </div>
 
       {selectedGuideline && (

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Leaf, Menu, X } from "lucide-react";
+import logo from "./Tiger Agro Chem log.jpg";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -21,7 +22,7 @@ function Navbar() {
           <div className="flex items-center">
             <NavLink to="/" className="flex items-center space-x-3">
               <img
-                src="/assets/Tiger%20Agro%20Chem%20log.jpg"
+                src={logo}
                 alt="Tiger Agro Chem logo"
                 className="h-10 w-auto rounded-lg"
               />
