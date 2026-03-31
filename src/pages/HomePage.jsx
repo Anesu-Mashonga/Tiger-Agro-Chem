@@ -12,16 +12,19 @@ import {
   X,
 } from "lucide-react";
 import { initializeStorage, readStorage } from "../utils/storage";
-import { defaultEvents, defaultTestimonials } from "../data/defaultData";
+import { defaultEvents } from "../data/defaultData";
 import { API_HOST, buildApiUrl, normalizeMediaUrl } from "../utils/api";
 
 const PRODUCTS_API = buildApiUrl("products");
 const GUIDELINES_API = buildApiUrl("guidelines");
+const TESTIMONIALS_API = buildApiUrl("testimonials");
 
 function HomePage() {
   const [isContactOpen, setContactOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [guidelines, setGuidelines] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
+  const [testimonialsLoading, setTestimonialsLoading] = useState(true);
 
   useEffect(() => {
     const formatPrice = (value) => {
@@ -157,14 +160,72 @@ function HomePage() {
       });
 
     initializeStorage("events", defaultEvents);
-    initializeStorage("testimonials", defaultTestimonials);
+
+    const normalizeTestimonial = (item) => {
+      const attrs = item.attributes || item;
+      return {
+        id: item.id || attrs.id,
+        name:
+          attrs.name ||
+          attrs.Name ||
+          attrs.title ||
+          attrs.fullName ||
+          "Anonymous",
+        role:
+          attrs.profession ||
+          attrs.Profession ||
+          attrs.role ||
+          attrs.Role ||
+          attrs.position ||
+          attrs.job ||
+          attrs.occupation ||
+          "",
+        content:
+          attrs.content ||
+          attrs.Content ||
+          attrs.testimonial ||
+          attrs.Testimonial ||
+          attrs.review ||
+          attrs.description ||
+          attrs.Description ||
+          "",
+        rating: Math.max(
+          0,
+          Math.min(
+            5,
+            Math.round((Number(attrs.rating ?? attrs.Rating ?? 0) || 0) * 2) /
+              2,
+          ),
+        ),
+      };
+    };
+
+    const normalizeTestimonialsResponse = (data) => {
+      if (!data) return [];
+      const items = Array.isArray(data) ? data : data.data || [];
+      return items.map(normalizeTestimonial);
+    };
+
+    fetch(`${TESTIMONIALS_API}?populate=*`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to fetch testimonials (${res.status})`);
+        }
+        return res.json();
+      })
+      .then((json) => {
+        const normalized = normalizeTestimonialsResponse(json);
+        setTestimonials(normalized.slice(0, 3));
+      })
+      .catch((error) => {
+        console.error("Error fetching testimonials:", error);
+      })
+      .finally(() => {
+        setTestimonialsLoading(false);
+      });
   }, []);
 
   const events = readStorage("events", defaultEvents).slice(0, 2);
-  const testimonials = readStorage("testimonials", defaultTestimonials).slice(
-    0,
-    3,
-  );
   const homeGuidelines = guidelines.slice(0, 4);
 
   const handleContactSubmit = (event) => {
