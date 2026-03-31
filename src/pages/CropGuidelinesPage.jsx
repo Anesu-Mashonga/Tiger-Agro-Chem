@@ -6,7 +6,7 @@ import {
   FlaskConical,
   ArrowRight,
 } from "lucide-react";
-import { API_HOST, buildApiUrl } from "../utils/api";
+import { API_HOST, buildApiUrl, normalizeMediaUrl } from "../utils/api";
 
 const categories = ["all", "Planting", "Pest Control", "Fertilization"];
 const GUIDELINES_API = buildApiUrl("guidelines");
@@ -45,7 +45,9 @@ function CropGuidelinesPage() {
         id: item.id || attrs.id,
         title: attrs.title || attrs.Title || "",
         category: attrs.category || attrs.Category || "",
-        image: normalizeImage(attrs.image),
+        image: normalizeMediaUrl(
+          attrs.image || attrs.guideline_image || attrs.guidelineImage,
+        ),
         excerpt:
           attrs.excerpt ||
           attrs.Excerpt ||
@@ -58,7 +60,13 @@ function CropGuidelinesPage() {
           attrs.description ||
           attrs.Description ||
           "",
-        pdfUrl: attrs.pdfUrl || attrs.pdf_url || attrs.pdf || "",
+        pdfUrl: normalizeMediaUrl(
+          attrs.pdfUrl ||
+            attrs.pdf_url ||
+            attrs.pdf ||
+            attrs.pdf_document ||
+            attrs.pdfDocument,
+        ),
       };
     };
 
@@ -127,14 +135,21 @@ function CropGuidelinesPage() {
                 type="button"
                 key={category}
                 onClick={() => setCurrentFilter(category)}
-                className={`bg-white p-6 rounded-xl shadow-md text-center cursor-pointer transition ${
+                aria-pressed={currentFilter === category}
+                className={`p-6 rounded-xl text-center cursor-pointer transition-all duration-200 ${
                   currentFilter === category
-                    ? "bg-emerald-50"
-                    : "hover:bg-emerald-50"
+                    ? "bg-emerald-50 border border-emerald-300 shadow-lg shadow-emerald-200/80 scale-[1.01]"
+                    : "bg-white border border-transparent hover:border-emerald-200 hover:bg-emerald-50"
                 }`}
               >
                 <Icon className="h-8 w-8 text-emerald-600 mx-auto mb-3" />
-                <h3 className="font-bold text-gray-800">
+                <h3
+                  className={`font-bold ${
+                    currentFilter === category
+                      ? "text-emerald-800"
+                      : "text-gray-800"
+                  }`}
+                >
                   {category === "all" ? "All Schemes" : category}
                 </h3>
               </button>

@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { initializeStorage, readStorage } from "../utils/storage";
 import { defaultEvents, defaultTestimonials } from "../data/defaultData";
-import { API_HOST, buildApiUrl } from "../utils/api";
+import { API_HOST, buildApiUrl, normalizeMediaUrl } from "../utils/api";
 
 const PRODUCTS_API = buildApiUrl("products");
 const GUIDELINES_API = buildApiUrl("guidelines");
@@ -99,7 +99,9 @@ function HomePage() {
         id: item.id || attrs.id,
         title: attrs.title || attrs.Title || "",
         category: attrs.category || attrs.Category || "",
-        image: normalizeImage(attrs.image),
+        image: normalizeMediaUrl(
+          attrs.image || attrs.guideline_image || attrs.guidelineImage,
+        ),
         excerpt:
           attrs.excerpt ||
           attrs.Excerpt ||
@@ -112,7 +114,13 @@ function HomePage() {
           attrs.description ||
           attrs.Description ||
           "",
-        pdfUrl: attrs.pdfUrl || attrs.pdf_url || attrs.pdf || "",
+        pdfUrl: normalizeMediaUrl(
+          attrs.pdfUrl ||
+            attrs.pdf_url ||
+            attrs.pdf ||
+            attrs.pdf_document ||
+            attrs.pdfDocument,
+        ),
       };
     };
 
