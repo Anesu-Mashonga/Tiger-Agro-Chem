@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Leaf, Menu, X } from "lucide-react";
-import logo from "./Tiger Agro Chem log.jpg";
+import logo from "./Tiger Agro Chem log.png";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -24,7 +24,7 @@ function Navbar() {
               <img
                 src={logo}
                 alt="Tiger Agro Chem logo"
-                className="h-10 w-auto rounded-lg"
+                className="navbar-logo"
               />
               <div>
                 <h1 className="text-2xl font-bold text-emerald-800">
