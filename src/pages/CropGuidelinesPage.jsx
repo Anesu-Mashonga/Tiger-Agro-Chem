@@ -70,7 +70,7 @@ function CropGuidelinesPage() {
               >
                 <Icon className="h-8 w-8 text-emerald-600 mx-auto mb-3" />
                 <h3 className="font-bold text-gray-800">
-                  {category === "all" ? "All Guidelines" : category}
+                  {category === "all" ? "All Schemes" : category}
                 </h3>
               </button>
             );
