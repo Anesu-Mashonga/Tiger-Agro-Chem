@@ -25,6 +25,7 @@ function HomePage() {
   const [testimonials, setTestimonials] = useState([]);
   const [testimonialsLoading, setTestimonialsLoading] = useState(true);
   const [events, setEvents] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     const formatPrice = (value) => {
@@ -299,6 +300,12 @@ function HomePage() {
 
   const homeGuidelines = guidelines.slice(0, 4);
 
+  const showProductDetail = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const closeProductModal = () => setSelectedProduct(null);
+
   const handleContactSubmit = (event) => {
     event.preventDefault();
     alert("Thank you for your message! We will get back to you soon.");
@@ -460,12 +467,13 @@ function HomePage() {
                     <span className="text-2xl font-bold text-emerald-700">
                       {product.price}
                     </span>
-                    <Link
-                      to="/products"
+                    <button
+                      type="button"
+                      onClick={() => showProductDetail(product)}
                       className="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition text-sm"
                     >
                       View Product
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -713,6 +721,80 @@ function HomePage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {selectedProduct && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          onClick={closeProductModal}
+        >
+          <div
+            className="w-full max-w-5xl overflow-hidden rounded-[32px] border border-emerald-100 bg-white shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="relative bg-emerald-700/10 px-6 py-5 sm:px-8 sm:py-6">
+              <button
+                type="button"
+                onClick={closeProductModal}
+                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-emerald-50 hover:text-emerald-700"
+                aria-label="Close details"
+              >
+                ✕
+              </button>
+              <div className="grid gap-6 lg:grid-cols-[1.25fr_0.85fr]">
+                <div className="overflow-hidden rounded-[28px] bg-slate-100">
+                  <img
+                    src={selectedProduct.image}
+                    alt={selectedProduct.name}
+                    className="h-80 w-full object-cover"
+                  />
+                </div>
+                <div className="space-y-4 px-0 py-2 sm:px-2 sm:py-0">
+                  <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-700">
+                    {selectedProduct.category}
+                  </span>
+                  <h2 className="text-3xl font-bold text-slate-900">
+                    {selectedProduct.name}
+                  </h2>
+                  <p className="text-slate-600 leading-relaxed">
+                    {selectedProduct.description}
+                  </p>
+                  <div className="mt-4">
+                    <span className="text-3xl font-bold text-emerald-700">
+                      {selectedProduct.price}
+                    </span>
+                  </div>
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        alert(
+                          `Thank you for your interest in ${selectedProduct.name}. Please contact us at +263 123 456 789 or visit our store.`,
+                        );
+                      }}
+                    >
+                      Contact to Order
+                    </button>
+                    <button
+                      type="button"
+                      onClick={closeProductModal}
+                      className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
+                    >
+                      Close
+                    </button>
+                  </div>
+                  <p className="text-sm text-slate-500">
+                    Contact us for bulk orders and pricing.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
