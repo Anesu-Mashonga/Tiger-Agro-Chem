@@ -85,7 +85,7 @@ select {
 .footer {
   background: #06070d;
   color: #e5e7eb;
-  padding: 4rem 1.5rem 2rem;
+  padding: 2rem 1.5rem 1rem;
 }
 
 .footer-inner {
@@ -96,21 +96,21 @@ select {
 .footer-main {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  min-height: 400px;
+  gap: 1.5rem;
+  min-height: 200px;
 }
 
 .footer-map {
   border-radius: 1rem;
   overflow: hidden;
-  min-height: 300px;
+  min-height: 150px;
 }
 
 .footer-map iframe {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 300px;
+  min-height: 150px;
 }
 
 .footer-content {
@@ -120,33 +120,33 @@ select {
 
 .footer-grid {
   display: grid;
-  gap: 2rem;
+  gap: 1rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .footer-brand {
   display: grid;
-  gap: 1.25rem;
+  gap: 0.75rem;
   grid-column: span 2;
 }
 
 .footer-brand-top {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .footer-logo {
-  height: 4rem;
+  height: 2.5rem;
   width: auto;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   background: #ffffff;
-  padding: 0.35rem;
+  padding: 0.25rem;
 }
 
 .footer-brand-title {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: #f8fafc;
 }
 
@@ -155,7 +155,8 @@ select {
 .footer-address {
   margin: 0;
   color: #cbd5e1;
-  line-height: 1.75;
+  line-height: 1.5;
+  font-size: 0.875rem;
 }
 
 .footer-address {
@@ -164,16 +165,16 @@ select {
 
 .footer-social {
   display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
 }
 
 .footer-social-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   color: #cbd5e1;
@@ -188,12 +189,12 @@ select {
 
 .footer-block {
   display: grid;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .footer-heading {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.875rem;
   color: #ffffff;
   font-weight: 700;
 }
@@ -203,7 +204,7 @@ select {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.75rem;
+  gap: 0.4rem;
 }
 
 .footer-link {
@@ -212,6 +213,7 @@ select {
   transition: color 0.2s ease;
   display: flex;
   align-items: center;
+  font-size: 0.8125rem;
 }
 
 .footer-link:hover {
@@ -219,14 +221,14 @@ select {
 }
 
 .footer-bottom {
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   border-top: 1px solid rgba(148, 163, 184, 0.15);
-  padding-top: 1.25rem;
+  padding-top: 0.75rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 0.75rem;
-  font-size: 0.95rem;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
   color: #94a3b8;
 }
 
