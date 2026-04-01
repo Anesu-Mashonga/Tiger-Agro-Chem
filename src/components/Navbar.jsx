@@ -4,11 +4,12 @@ import { Leaf, Menu, X } from "lucide-react";
 import logo from "./Tiger Agro Chem log.png";
 
 const navItems = [
-  { to: "/", label: "Home" },
   { to: "/products", label: "Products" },
   { to: "/guidelines", label: "Crop protection Scheme" },
   { to: "/events", label: "Events" },
   { to: "/testimonials", label: "Testimonials" },
+  { to: "/about", label: "About Us" },
+  { to: "/contact", label: "Contact Us" },
   { to: "/admin", label: "Admin" },
 ];
 

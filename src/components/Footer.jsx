@@ -150,6 +150,16 @@ function Footer() {
                       Testimonials
                     </a>
                   </li>
+                  <li>
+                    <a href="/about" className="footer-link">
+                      About Us
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/contact" className="footer-link">
+                      Contact Us
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>

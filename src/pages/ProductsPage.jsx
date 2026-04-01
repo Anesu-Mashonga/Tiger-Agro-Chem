@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { buildApiUrl } from "../utils/api";
+import { buildApiUrl, API_HOST } from "../utils/api";
 
 const PRODUCTS_API = buildApiUrl("products");
 

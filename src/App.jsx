@@ -6,6 +6,8 @@ import ProductsPage from "./pages/ProductsPage";
 import CropGuidelinesPage from "./pages/CropGuidelinesPage";
 import EventsPage from "./pages/EventsPage";
 import TestimonialsPage from "./pages/TestimonialsPage";
+import AboutUsPage from "./pages/AboutUsPage";
+import ContactUsPage from "./pages/ContactUsPage";
 import AdminPage from "./pages/AdminPage";
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
           <Route path="/guidelines" element={<CropGuidelinesPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/testimonials" element={<TestimonialsPage />} />
+          <Route path="/about" element={<AboutUsPage />} />
+          <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
