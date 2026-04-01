@@ -9,6 +9,7 @@ import TestimonialsPage from "./pages/TestimonialsPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import ContactUsPage from "./pages/ContactUsPage";
 import AdminPage from "./pages/AdminPage";
+import GalleryPage from "./pages/GalleryPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/about" element={<AboutUsPage />} />
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

@@ -11,13 +11,12 @@ import {
   Star,
   X,
 } from "lucide-react";
-import { initializeStorage, readStorage } from "../utils/storage";
-import { defaultEvents } from "../data/defaultData";
 import { API_HOST, buildApiUrl, normalizeMediaUrl } from "../utils/api";
 
 const PRODUCTS_API = buildApiUrl("products");
 const GUIDELINES_API = buildApiUrl("guidelines");
 const TESTIMONIALS_API = buildApiUrl("testimonials");
+const EVENTS_API = buildApiUrl("events");
 
 function HomePage() {
   const [isContactOpen, setContactOpen] = useState(false);
@@ -25,6 +24,7 @@ function HomePage() {
   const [guidelines, setGuidelines] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [testimonialsLoading, setTestimonialsLoading] = useState(true);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     const formatPrice = (value) => {
@@ -159,7 +159,79 @@ function HomePage() {
         setGuidelines([]);
       });
 
-    initializeStorage("events", defaultEvents);
+    const normalizeEvent = (item) => {
+      const attrs = item.attributes || item;
+      const dateValue =
+        attrs.date || attrs.event_date || attrs.eventDate || attrs.Date || "";
+      const parsedDate = new Date(dateValue);
+      const isValidDate = !Number.isNaN(parsedDate.valueOf());
+      const today = new Date();
+      const normalizedStatus = isValidDate
+        ? new Date(today.getFullYear(), today.getMonth(), today.getDate()) <=
+          new Date(
+            parsedDate.getFullYear(),
+            parsedDate.getMonth(),
+            parsedDate.getDate(),
+          )
+          ? "upcoming"
+          : "past"
+        : "upcoming";
+
+      return {
+        id: item.id || attrs.id,
+        title: attrs.title || attrs.Title || attrs.name || attrs.Name || "",
+        date: dateValue,
+        location:
+          attrs.location ||
+          attrs.Location ||
+          attrs.venue ||
+          attrs.Venue ||
+          attrs.address ||
+          attrs.Address ||
+          "",
+        type:
+          attrs.tag ||
+          attrs.Tag ||
+          attrs.type ||
+          attrs.Type ||
+          attrs.category ||
+          attrs.Category ||
+          "",
+        description:
+          attrs.description ||
+          attrs.Description ||
+          attrs.details ||
+          attrs.Details ||
+          "",
+        status: normalizedStatus === "past" ? "past" : "upcoming",
+      };
+    };
+
+    const normalizeEventsResponse = (data) => {
+      if (!data) return [];
+      const items = Array.isArray(data) ? data : data.data || [];
+      return items.map(normalizeEvent);
+    };
+
+    fetch(`${EVENTS_API}?populate=*`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to fetch events (${res.status})`);
+        }
+        return res.json();
+      })
+      .then((json) => {
+        const normalized = normalizeEventsResponse(json);
+        const upcomingEvents = normalized
+          .filter((event) => event.status === "upcoming")
+          .sort((a, b) => new Date(a.date) - new Date(b.date))
+          .slice(0, 2);
+        setEvents(upcomingEvents);
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+        setEvents([]);
+      });
 
     const normalizeTestimonial = (item) => {
       const attrs = item.attributes || item;
@@ -225,7 +297,6 @@ function HomePage() {
       });
   }, []);
 
-  const events = readStorage("events", defaultEvents).slice(0, 2);
   const homeGuidelines = guidelines.slice(0, 4);
 
   const handleContactSubmit = (event) => {

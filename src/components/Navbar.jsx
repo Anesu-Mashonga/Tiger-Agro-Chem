@@ -8,6 +8,7 @@ const navItems = [
   { to: "/guidelines", label: "Crop protection Scheme" },
   { to: "/events", label: "Events" },
   { to: "/testimonials", label: "Testimonials" },
+  { to: "/gallery", label: "Gallery" },
   { to: "/about", label: "About Us" },
   { to: "/contact", label: "Contact Us" },
   { to: "/admin", label: "Admin" },
