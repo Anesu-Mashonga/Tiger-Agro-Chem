@@ -1,0 +1,24 @@
+{
+  "name": "tiger-agrochem",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:local": "set VITE_API_BASE_URL=http://127.0.0.1:1337 && vite",
+    "dev:cloud": "set VITE_API_BASE_URL=https://clever-frogs-f2483126a1.strapiapp.com/api && vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "lucide-react": "^0.518.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.14.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.1"
+  }
+}

@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crop Guidelines - Tiger Agrochem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .guideline-card {
+        transition: all 0.3s ease;
+      }
+      .guideline-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-20">
+          <div class="flex items-center">
+            <a href="index.html" class="flex items-center space-x-3">
+              <div class="bg-emerald-600 p-2 rounded-lg">
+                <i data-lucide="leaf" class="h-8 w-8 text-white"></i>
+              </div>
+              <div>
+                <h1 class="text-2xl font-bold text-emerald-800">
+                  Tiger Agrochem
+                </h1>
+                <p class="text-xs text-emerald-600 font-medium">
+                  Agricultural Excellence
+                </p>
+              </div>
+            </a>
+          </div>
+
+          <div class="hidden md:flex items-center space-x-8">
+            <a
+              href="index.html"
+              class="text-gray-600 hover:text-emerald-600 font-medium transition"
+              >Home</a
+            >
+            <a
+              href="products.html"
+              class="text-gray-600 hover:text-emerald-600 font-medium transition"
+              >Products</a
+            >
+            <a
+              href="crop-guidelines.html"
+              class="text-emerald-700 font-semibold border-b-2 border-emerald-600"
+              >Crop Guidelines</a
+            >
+            <a
+              href="events.html"
+              class="text-gray-600 hover:text-emerald-600 font-medium transition"
+              >Events</a
+            >
+            <a
+              href="testimonials.html"
+              class="text-gray-600 hover:text-emerald-600 font-medium transition"
+              >Testimonials</a
+            >
+            <a
+              href="admin.html"
+              class="bg-amber-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-amber-600 transition shadow-md"
+              >Admin</a
+            >
+          </div>
+
+          <div class="md:hidden flex items-center">
+            <button
+              onclick="toggleMobileMenu()"
+              class="text-gray-600 hover:text-emerald-600 focus:outline-none"
+            >
+              <i data-lucide="menu" class="h-6 w-6"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <a
+            href="index.html"
+            class="block px-3 py-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-md"
+            >Home</a
+          >
+          <a
+            href="products.html"
+            class="block px-3 py-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-md"
+            >Products</a
+          >
+          <a
+            href="crop-guidelines.html"
+            class="block px-3 py-2 text-emerald-700 font-semibold bg-emerald-50 rounded-md"
+            >Crop Guidelines</a
+          >
+          <a
+            href="events.html"
+            class="block px-3 py-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-md"
+            >Events</a
+          >
+          <a
+            href="testimonials.html"
+            class="block px-3 py-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-md"
+            >Testimonials</a
+          >
+          <a
+            href="admin.html"
+            class="block px-3 py-2 text-amber-600 font-semibold hover:bg-amber-50 rounded-md"
+            >Admin Panel</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <div
+      class="bg-gradient-to-r from-emerald-800 to-emerald-600 text-white py-16"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Crop Guidelines</h1>
+        <p class="text-xl text-emerald-100 max-w-2xl">
+          Expert agricultural advice and best practices for successful farming.
+        </p>
+      </div>
+    </div>
+
+    <!-- Guidelines Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <!-- Categories -->
+      <div class="grid md:grid-cols-4 gap-6 mb-12">
+        <div
+          class="bg-white p-6 rounded-xl shadow-md text-center cursor-pointer hover:bg-emerald-50 transition"
+          onclick="filterGuidelines('all')"
+        >
+          <i
+            data-lucide="layout-grid"
+            class="h-8 w-8 text-emerald-600 mx-auto mb-3"
+          ></i>
+          <h3 class="font-bold text-gray-800">All Schemes</h3>
+        </div>
+        <div
+          class="bg-white p-6 rounded-xl shadow-md text-center cursor-pointer hover:bg-emerald-50 transition"
+          onclick="filterGuidelines('Planting')"
+        >
+          <i
+            data-lucide="seedling"
+            class="h-8 w-8 text-emerald-600 mx-auto mb-3"
+          ></i>
+          <h3 class="font-bold text-gray-800">Planting</h3>
+        </div>
+        <div
+          class="bg-white p-6 rounded-xl shadow-md text-center cursor-pointer hover:bg-emerald-50 transition"
+          onclick="filterGuidelines('Pest Control')"
+        >
+          <i
+            data-lucide="bug"
+            class="h-8 w-8 text-emerald-600 mx-auto mb-3"
+          ></i>
+          <h3 class="font-bold text-gray-800">Pest Control</h3>
+        </div>
+        <div
+          class="bg-white p-6 rounded-xl shadow-md text-center cursor-pointer hover:bg-emerald-50 transition"
+          onclick="filterGuidelines('Fertilization')"
+        >
+          <i
+            data-lucide="flask-conical"
+            class="h-8 w-8 text-emerald-600 mx-auto mb-3"
+          ></i>
+          <h3 class="font-bold text-gray-800">Fertilization</h3>
+        </div>
+      </div>
+
+      <!-- Guidelines Grid -->
+      <div
+        id="guidelines-grid"
+        class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
+        <!-- Guidelines loaded dynamically -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12 mt-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <p>&copy; 2026 Tiger Agrochem. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      lucide.createIcons();
+
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        menu.classList.toggle("hidden");
+      }
+
+      function initializeDefaultGuidelines() {
+        if (!localStorage.getItem("guidelines")) {
+          const defaultGuidelines = [
+            {
+              id: 1,
+              title: "Maize Planting Guide",
+              category: "Planting",
+              image: "http://static.photos/agriculture/640x360/30",
+              excerpt:
+                "Complete guide to planting maize including soil preparation, spacing, and timing.",
+              content:
+                "Maize requires well-prepared soil with pH 5.8-6.8. Plant at 25-30cm spacing between plants and 75cm between rows. Best planting time is November-December.",
+            },
+            {
+              id: 2,
+              title: "Fall Armyworm Control",
+              category: "Pest Control",
+              image: "http://static.photos/nature/640x360/31",
+              excerpt:
+                "Effective strategies for managing Fall Armyworm infestations in your crops.",
+              content:
+                "Monitor fields weekly. Use pheromone traps for early detection. Apply recommended insecticides at first sign of infestation. Biological control using natural enemies is also effective.",
+            },
+            {
+              id: 3,
+              title: "Fertilizer Application Rates",
+              category: "Fertilization",
+              image: "http://static.photos/agriculture/640x360/32",
+              excerpt:
+                "Recommended fertilizer quantities for different crops and soil types.",
+              content:
+                "Maize: 300-400kg/ha of Compound D at planting, followed by 200kg/ha of Ammonium Nitrate at knee height. Adjust based on soil test results.",
+            },
+            {
+              id: 4,
+              title: "Soya Bean Production",
+              category: "Planting",
+              image: "http://static.photos/nature/640x360/33",
+              excerpt:
+                "Step-by-step guide to successful soya bean cultivation.",
+              content:
+                "Plant in November-December. Use certified seeds. Inoculate seeds with rhizobium bacteria. Space at 5-7cm within rows and 45cm between rows.",
+            },
+            {
+              id: 5,
+              title: "Weed Management",
+              category: "Pest Control",
+              image: "http://static.photos/outdoor/640x360/34",
+              excerpt:
+                "Integrated weed management strategies for various cropping systems.",
+              content:
+                "Combine cultural, mechanical, and chemical methods. Apply pre-emergence herbicides within 2 days of planting. Hand weed if necessary at 3-4 weeks after emergence.",
+            },
+            {
+              id: 6,
+              title: "Top Dressing Guide",
+              category: "Fertilization",
+              image: "http://static.photos/agriculture/640x360/35",
+              excerpt:
+                "When and how to apply top dressing fertilizers for maximum yield.",
+              content:
+                "Apply top dressing when crop is at knee height (4-6 weeks). Place fertilizer 5-10cm from plant stem. Avoid contact with leaves. Apply before rain or irrigate after application.",
+            },
+          ];
+          localStorage.setItem("guidelines", JSON.stringify(defaultGuidelines));
+        }
+      }
+
+      let currentFilter = "all";
+
+      function loadGuidelines() {
+        const guidelines = JSON.parse(
+          localStorage.getItem("guidelines") || "[]",
+        );
+        const container = document.getElementById("guidelines-grid");
+
+        let filtered = guidelines;
+        if (currentFilter !== "all") {
+          filtered = guidelines.filter((g) => g.category === currentFilter);
+        }
+
+        container.innerHTML = filtered
+          .map(
+            (guideline) => `
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden guideline-card">
+                    <img src="${guideline.image}" alt="${guideline.title}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-wide">${guideline.category}</span>
+                        <h3 class="text-xl font-bold text-gray-800 mt-2 mb-3">${guideline.title}</h3>
+                        <p class="text-gray-600 mb-4 text-sm">${guideline.excerpt}</p>
+                        <button onclick="showGuidelineDetail(${guideline.id})" class="text-emerald-600 font-bold hover:text-emerald-700 flex items-center">
+                            Read More <i data-lucide="arrow-right" class="ml-2 h-4 w-4"></i>
+                        </button>
+                    </div>
+                </div>
+            `,
+          )
+          .join("");
+
+        lucide.createIcons();
+      }
+
+      function filterGuidelines(category) {
+        currentFilter = category;
+        loadGuidelines();
+      }
+
+      function showGuidelineDetail(id) {
+        const guidelines = JSON.parse(
+          localStorage.getItem("guidelines") || "[]",
+        );
+        const guideline = guidelines.find((g) => g.id === id);
+
+        if (guideline) {
+          alert(
+            `${guideline.title}\n\n${guideline.content}\n\nFor more detailed information, please contact our agronomy team.`,
+          );
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeDefaultGuidelines();
+        loadGuidelines();
+      });
+    </script>
+  </body>
+</html>
