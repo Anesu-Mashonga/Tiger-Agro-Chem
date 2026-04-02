@@ -1,4 +1,6 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
+import { emailjsConfig } from "../config/emailjs";
 import {
   Mail,
   Phone,
@@ -96,23 +98,47 @@ function ContactUsPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setFormStatus(null);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Prepare template parameters for EmailJS
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      phone: formData.phone || "Not provided",
+      subject: formData.subject,
+      message: formData.message,
+      to_email: "sales@tigeragrochem.co.zw",
+    };
 
-    // For demo purposes, always show success
-    setFormStatus("success");
-    setIsSubmitting(false);
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-    });
+    try {
+      // Send email using EmailJS
+      await emailjs.send(
+        emailjsConfig.serviceId,
+        emailjsConfig.templateId,
+        templateParams,
+        emailjsConfig.publicKey
+      );
 
-    // Clear success message after 5 seconds
-    setTimeout(() => setFormStatus(null), 5000);
+      setFormStatus("success");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+
+      // Clear success message after 5 seconds
+      setTimeout(() => setFormStatus(null), 5000);
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      setFormStatus("error");
+
+      // Clear error message after 5 seconds
+      setTimeout(() => setFormStatus(null), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const toggleFaq = (index) => {
