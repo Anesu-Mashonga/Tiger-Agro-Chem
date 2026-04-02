@@ -71,68 +71,68 @@ const teamMembers = [
 
 const milestones = [
   {
-    year: "2008",
+    year: "2018",
     title: "Company Founded",
     description:
-      "Tiger Agrochem was established with a mission to provide quality agricultural inputs to Zimbabwean farmers.",
+      "Tiger Agro Chem (TAC) was established with the mission of enhancing Zimbabwe’s agricultural productivity and helping the nation reclaim its status as Africa’s breadbasket. It launched as the official representative of Avgust Crop Protection (a leading European/Russian supplier)",
   },
   {
-    year: "2012",
-    title: "Expanded Product Range",
+    year: "2019 - 2020",
+    title: "Strategic Product Registration",
     description:
-      "Introduced a comprehensive range of crop protection chemicals and fertilizers.",
+      "The company successfully registered a comprehensive range of products—including herbicides, insecticides, fungicides, and plant growth regulators—with Zimbabwe’s Ministry of Lands, Agriculture, Fisheries, Water, Climate and Rural Resettlement, ensuring full statutory compliance.",
   },
   {
-    year: "2016",
-    title: "Regional Expansion",
+    year: "2021",
+    title: "Strategic Partnership with Tiger Agro Solutions (TAS)",
     description:
-      "Extended operations to cover all major agricultural regions in Zimbabwe.",
+      "To provide a universal solution for farmers, TAC partnered with its sister company, Tiger Agro Solutions. This allowed the company to offer not just chemicals, but also contract hiring for heavy machinery like Rostselmash tractors, planters, and combine harvesters.",
   },
   {
-    year: "2020",
-    title: "Digital Transformation",
+    year: "2022 - 2023",
+    title: "Nationwide Distribution Network",
     description:
-      "Launched online platform and digital advisory services for farmers.",
+      "TAC significantly expanded its reach by partnering with major national agro-dealers. Its products became available across Zimbabwe through outlets such as Farmbiz, Windmill, Farmers Choice, and NTS, covering regions from Harare and Bulawayo to Mutare and Chivhu.",
   },
   {
     year: "2024",
-    title: "Sustainability Initiative",
+    title: "Advanced Agronomic Support & Sustainability",
     description:
-      "Introduced eco-friendly product lines and sustainable farming programs.",
+      "The company shifted focus toward Smart Farming by providing hands-on technical support. This includes free field visits and boom spraying services for large-scale farmers (over 100-250 hectares) and specialized advisory on soil analysis and eco-friendly chemical application to ensure sustainable yields.",
   },
 ];
 
 const values = [
   {
     icon: ShieldCheck,
-    title: "Quality Assurance",
+    title: "Integrity",
     description:
-      "We source only certified, high-quality products from trusted global manufacturers.",
+      "Good work ethic.",
   },
   {
     icon: Heart,
-    title: "Customer First",
+    title: "Customer Satisfaction",
     description:
-      "Our farmers' success is our success. We prioritize their needs in everything we do.",
+      "Driven by customer focus.",
   },
   {
-    icon: Sprout,
-    title: "Sustainability",
+    icon: Users,
+    title: "Teamwork",
     description:
-      "We promote farming practices that protect the environment for future generations.",
+      "Together we go far.",
   },
   {
-    icon: TrendingUp,
-    title: "Innovation",
+    icon: Award,
+    title: "Professionalism",
     description:
-      "We continuously seek new solutions and technologies to improve agricultural productivity.",
+      "Passionate with our work.",
   },
 ];
 
 const stats = [
-  { value: "15+", label: "Years of Experience" },
-  { value: "5,000+", label: "Farmers Served" },
-  { value: "200+", label: "Products Available" },
+  { value: "2018", label: "Year Established" },
+  { value: "21%", label: "Avgust Market Share in Russia" },
+  { value: "100+", label: "Products Registered" },
   { value: "10", label: "Provinces Covered" },
 ];
 
@@ -166,9 +166,9 @@ function AboutUsPage() {
               <span className="text-amber-300">Agricultural Future</span>
             </h1>
             <p className="text-xl text-emerald-100 leading-relaxed">
-              For over 15 years, we've been empowering farmers with quality
-              agrochemicals, expert guidance, and innovative solutions to help
-              them achieve sustainable success.
+              Established in 2018, Tiger Agro Chem (TAC) is dedicated to enhancing 
+              Zimbabwe's agricultural productivity and reclaiming Africa's breadbasket 
+              status as the representative of Avgust Crop Protection from Russia.
             </p>
           </div>
         </div>
@@ -199,20 +199,25 @@ function AboutUsPage() {
                 Who We Are
               </h2>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Tiger Agrochem is a leading agricultural input supplier in
-                Zimbabwe, dedicated to providing farmers with high-quality crop
-                protection products, fertilizers, seeds, and expert agronomic
-                advice.
+                Tiger Agro Chem (TAC) was established in 2018 with the goal of 
+                enhancing Zimbabwe's agricultural productivity and reclaiming 
+                Africa's breadbasket status. As the representative of Avgust 
+                Crop Protection from Russia, one of Europe's leading agrochemical 
+                suppliers, TAC brings the expertise of a company with a remarkable 
+                21% marketshare in Russia.
               </p>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Based in Harare, we serve farmers across all provinces, helping
-                them maximize yields, protect their crops, and adopt sustainable
-                farming practices that ensure long-term productivity.
+                TAC ensures compliance with all applicable statutory requirements 
+                and has successfully registered its wide range of products, including 
+                herbicides, insecticides, fungicides, plant growth regulators, and 
+                seed dressers, with Zimbabwe's Ministry of Lands, Agriculture, 
+                Fisheries, Water, Climate and Rural Resettlement.
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Our team of experienced agronomists and technical advisors work
-                closely with farmers to understand their unique challenges and
-                provide tailored solutions that deliver real results.
+                Our team has vast experience in different corporate management areas, 
+                including commercial farming, financial management, operational control, 
+                customs clearing and transport, and working capital management. We are 
+                passionate about improving the sustainability of farming systems and technology.
               </p>
             </div>
             <div className="relative">
@@ -227,7 +232,7 @@ function AboutUsPage() {
                     <Award className="h-6 w-6 text-emerald-600" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-gray-800">15+</p>
+                    <p className="text-2xl font-bold text-gray-800">{new Date().getFullYear() - 2018}+</p>
                     <p className="text-sm text-gray-600">Years of Excellence</p>
                   </div>
                 </div>
@@ -260,9 +265,10 @@ function AboutUsPage() {
                 </h3>
               </div>
               <p className="text-gray-600 leading-relaxed">
-                To empower Zimbabwean farmers with access to quality agricultural
-                inputs, innovative technologies, and expert guidance that enhance
-                productivity, profitability, and sustainability.
+                To provide farmers with sustainable chemical crop protection 
+                products (herbicides, fungicides, insecticides, seed dressers 
+                and bio stimulants) which are affordable and effective to ensure 
+                high yields and profits.
               </p>
             </div>
 
@@ -276,9 +282,7 @@ function AboutUsPage() {
                 </h3>
               </div>
               <p className="text-gray-600 leading-relaxed">
-                To be Zimbabwe's most trusted agricultural partner, recognized
-                for delivering excellence in products, services, and farmer
-                support that transform agriculture across the nation.
+                To be the preferred agro chemical supplier in Southern Africa.
               </p>
             </div>
           </div>
@@ -372,8 +376,25 @@ function AboutUsPage() {
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
               Our Team
             </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
+              The Executive team has vast experience in different corporate 
+              management areas, including commercial farming, financial management, 
+              operational control, customs clearing and transport, and working 
+              capital management. The team is passionate about improving the 
+              sustainability of farming systems and technology.
+            </p>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
+              TAC has qualified and hands-on agronomists who have experience in 
+              agro-retail, agro-technical service, agro-consultancy, and farm 
+              administration to assist farmers at any level with comprehensive 
+              crop protection solutions that are practical and cost-effective.
+            </p>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Dedicated professionals committed to your farming success
+              The field team comprises experienced supervisors who know how to 
+              calibrate sprayers, the ideal times and conditions to spray, and 
+              the proper equipment to use depending on the products. They have a 
+              hands-on approach and are always on the ground, assisting farmers 
+              to analyse and solve problems.
             </p>
           </div>
 
@@ -519,6 +540,85 @@ function AboutUsPage() {
                 className="rounded-2xl shadow-2xl"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Strategic Partnerships */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">
+              Strategic Partnerships
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Working together to provide comprehensive agricultural solutions
+            </p>
+          </div>
+
+          <div className="bg-white p-8 rounded-2xl shadow-lg">
+            <p className="text-lg text-gray-600 leading-relaxed mb-6">
+              To supply farmers with a universal solution including the acute 
+              shortage on tillage, planting, chemical application and harvesting 
+              equipment, TAC has partnered with its sister company Tiger Agro 
+              Solutions (TAS). TAS is an accredited dealer of Rostselmash and 
+              has a fleet of tractors, planters, boom sprayers and combine 
+              harvesters that they offer for contract hiring to farmers to ensure 
+              optimum productivity.
+            </p>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              If farmers buy chemicals for more than 100 hectares, the agronomy 
+              team will visit the field and ensure correct chemical application. 
+              Farmers that buy chemicals from TAC for more than 250 hectares 
+              receive the first round of boom spraying by TAS at a discounted 
+              price (Terms and conditions apply).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* TAC Engagements with Avgust */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">
+              TAC Engagements with Avgust in Europe and Asia
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Gaining first-hand knowledge of production processes
+            </p>
+          </div>
+
+          <div className="bg-emerald-50 p-8 rounded-2xl">
+            <p className="text-lg text-gray-600 leading-relaxed mb-6">
+              We are extremely proud to share with you the valuable experience 
+              we gained during our visit to the Avgust Crop Protection factories 
+              in China and Russia. The purpose of this visit was to deepen our 
+              understanding of the production processes involved in the 
+              manufacturing of our exceptional range of products.
+            </p>
+            <p className="text-lg text-gray-600 leading-relaxed mb-6">
+              By gaining first-hand knowledge of these processes, we are now 
+              equipped to articulate the unique features and benefits of our 
+              products to our esteemed clients. We were given a tour of the 
+              manufacturing facilities and witnessed the process from formulation 
+              to packaging using advanced techniques employed to maintain the 
+              highest quality standards. This visit not only gave us insight into the attention to the detail involved in the cultivation process but also allowed us to appreciate the dedication and expertise of our Avgust Chinese partners.
+            </p>
+            <p className="text-lg text-gray-600 leading-relaxed mb-6">
+              Similarly, in Russia, we had the opportunity to observe the 
+              state-of-the-art manufacturing facilities. We witnessed the seamless 
+              integration of technology and precision in various production stages. 
+              From formulation to packaging, every step is executed with utmost 
+              care, ensuring that our products reach the market in their optimal form. Through this visit, we gained a deeper appreciation for the commitment of our Russian counterparts to delivering excellence.
+            </p>
+            <p className="text-lg text-gray-600 leading-relaxed">
+              With the valuable experience gained from these visits, we at TAC, 
+              are excited to share our comprehensive understanding of our products 
+              with our clients. We believe that by knowing the production process 
+              inside out, we can better assist our clients in selecting the right 
+              solutions for their specific crop protection needs. We look forward to bringing our clients closer to the heart of our operations and delivering the highest level of satisfaction through our exceptional products, supported by our comprehensive knowledge of the production process.
+            </p>
           </div>
         </div>
       </section>

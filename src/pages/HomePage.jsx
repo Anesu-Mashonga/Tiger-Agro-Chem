@@ -368,7 +368,7 @@ function HomePage() {
                     <Award className="h-6 w-6 text-emerald-600" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-gray-800">15+</p>
+                    <p className="text-2xl font-bold text-gray-800">{new Date().getFullYear() - 2018}+</p>
                     <p className="text-sm text-gray-600">Years Experience</p>
                   </div>
                 </div>
