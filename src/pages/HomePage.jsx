@@ -64,6 +64,7 @@ function HomePage() {
         price: formatPrice(attrs.Price ?? attrs.price ?? ""),
         image: normalizeImage(attrs.product_image),
         description: attrs.Description || attrs.description || "",
+        composition: attrs.Composition || attrs.composition || "",
         createdAt: attrs.createdAt || product.createdAt || "",
       };
     };
@@ -444,26 +445,26 @@ function HomePage() {
             {products.map((product) => (
               <div
                 key={product.id}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-gray-100"
+                className="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-gray-100 flex flex-col"
               >
-                <div className="relative">
+                <div className="relative bg-gray-100">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-48 object-contain"
                   />
                   <span className="absolute top-4 right-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-bold">
                     {product.category}
                   </span>
                 </div>
-                <div className="p-6">
+                <div className="p-6 flex flex-col flex-1">
                   <h3 className="text-xl font-bold text-gray-800 mb-2">
                     {product.name}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-4">
-                    {product.description}
+                  <p className="text-gray-600 text-sm mb-4 flex-1">
+                    {product.composition}
                   </p>
-                  <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                  <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
                     <span className="text-2xl font-bold text-emerald-700">
                       {product.price}
                     </span>
@@ -750,7 +751,7 @@ function HomePage() {
                   <img
                     src={selectedProduct.image}
                     alt={selectedProduct.name}
-                    className="h-80 w-full object-cover"
+                    className="h-80 w-full object-contain"
                   />
                 </div>
                 <div className="space-y-4 px-0 py-2 sm:px-2 sm:py-0">
