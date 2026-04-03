@@ -1,4 +1,4 @@
-const DEFAULT_API_BASE_URL = "http://127.0.0.1:1337";
+const DEFAULT_API_BASE_URL = "https://clever-frogs-f2483126a1.strapiapp.com/api";
 
 const normalizeBaseUrl = (value) => {
   const raw = value?.toString().trim();
