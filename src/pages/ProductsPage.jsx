@@ -106,7 +106,7 @@ function ProductsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-wrap gap-4 mb-8">
+        <div className="flex flex-wrap gap-2 mb-6">
           {categories.map((category) => {
             const isActive = currentCategory === category;
             return (
@@ -114,13 +114,13 @@ function ProductsPage() {
                 key={category}
                 type="button"
                 onClick={() => setCurrentCategory(category)}
-                className={`filter-btn px-6 py-2 rounded-full font-medium transition ${
+                className={`filter-btn px-3 py-1.5 rounded-full font-medium text-sm transition ${
                   isActive
                     ? "bg-emerald-600 text-white"
                     : "bg-white text-gray-600 border border-gray-300 hover:bg-emerald-50"
                 }`}
               >
-                {category === "all" ? "All Products" : category}
+                {category === "all" ? "All" : category}
               </button>
             );
           })}
@@ -141,13 +141,13 @@ function ProductsPage() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredProducts.length === 0 ? (
-            <div className="col-span-full text-center py-12">
-              <div className="inline-flex items-center justify-center h-16 w-16 bg-gray-100 rounded-full mx-auto mb-4">
-                <span className="text-2xl">📦</span>
+            <div className="col-span-full text-center py-8">
+              <div className="inline-flex items-center justify-center h-12 w-12 bg-gray-100 rounded-full mx-auto mb-3">
+                <span className="text-xl">📦</span>
               </div>
-              <p className="text-gray-500 text-lg">
+              <p className="text-gray-500 text-base">
                 No products found matching your criteria.
               </p>
             </div>
@@ -161,29 +161,29 @@ function ProductsPage() {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-48 object-contain"
+                    className="w-full h-32 object-contain"
                   />
-                  <span className="absolute top-4 right-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-bold">
+                  <span className="absolute top-2 right-2 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-xs font-bold">
                     {product.category}
                   </span>
                 </div>
-                <div className="p-6 flex flex-col flex-1">
-                  <h3 className="text-lg font-bold text-gray-800 mb-2">
+                <div className="p-4 flex flex-col flex-1">
+                  <h3 className="text-base font-bold text-gray-800 mb-2">
                     {product.name}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-4 flex-1">
+                  <p className="text-gray-600 text-xs mb-3 flex-1 line-clamp-2">
                     {product.composition}
                   </p>
-                  <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
-                    <span className="text-2xl font-bold text-emerald-700">
+                  <div className="flex justify-between items-center pt-2 border-t border-gray-100 mt-auto">
+                    <span className="text-lg font-bold text-emerald-700">
                       {product.price}
                     </span>
                     <button
                       type="button"
                       onClick={() => showProductDetail(product)}
-                      className="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition text-sm"
+                      className="bg-emerald-600 text-white px-3 py-1.5 rounded-lg font-semibold text-sm hover:bg-emerald-700 transition"
                     >
-                      View Product
+                      View
                     </button>
                   </div>
                 </div>
@@ -201,45 +201,45 @@ function ProductsPage() {
           onClick={closeProductModal}
         >
           <div
-            className="w-full max-w-5xl overflow-hidden rounded-[32px] border border-emerald-100 bg-white shadow-2xl"
+            className="w-full max-w-4xl overflow-hidden rounded-[24px] border border-emerald-100 bg-white shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="relative bg-emerald-700/10 px-6 py-5 sm:px-8 sm:py-6">
+            <div className="relative bg-emerald-700/10 px-4 py-4 sm:px-6 sm:py-6">
               <button
                 type="button"
                 onClick={closeProductModal}
-                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-emerald-50 hover:text-emerald-700"
+                className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-emerald-50 hover:text-emerald-700"
                 aria-label="Close details"
               >
                 ✕
               </button>
-              <div className="grid gap-6 lg:grid-cols-[1.25fr_0.85fr]">
-                <div className="overflow-hidden rounded-[28px] bg-slate-100">
+              <div className="grid gap-4 lg:grid-cols-[1.25fr_0.85fr]">
+                <div className="overflow-hidden rounded-[24px] bg-slate-100">
                   <img
                     src={selectedProduct.image}
                     alt={selectedProduct.name}
-                    className="h-80 w-full object-contain"
+                    className="h-64 w-full object-contain"
                   />
                 </div>
-                <div className="space-y-4 px-0 py-2 sm:px-2 sm:py-0">
-                  <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-700">
+                <div className="space-y-3 px-0 py-1 sm:px-2 sm:py-0">
+                  <span className="inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-700">
                     {selectedProduct.category}
                   </span>
-                  <h2 className="text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl font-bold text-slate-900">
                     {selectedProduct.name}
                   </h2>
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-slate-600 leading-relaxed text-sm">
                     {selectedProduct.description}
                   </p>
-                  <div className="mt-4">
-                    <span className="text-3xl font-bold text-emerald-700">
+                  <div className="mt-3">
+                    <span className="text-2xl font-bold text-emerald-700">
                       {selectedProduct.price}
                     </span>
                   </div>
-                  <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
                     <button
                       type="button"
-                      className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
+                      className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
                       onClick={(event) => {
                         event.preventDefault();
                         alert(
@@ -252,12 +252,12 @@ function ProductsPage() {
                     <button
                       type="button"
                       onClick={closeProductModal}
-                      className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
+                      className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
                     >
                       Close
                     </button>
                   </div>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-xs text-slate-500">
                     Contact us for bulk orders and pricing.
                   </p>
                 </div>

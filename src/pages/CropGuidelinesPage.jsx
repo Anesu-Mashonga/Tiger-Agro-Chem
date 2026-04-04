@@ -127,7 +127,7 @@ function CropGuidelinesPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-4 gap-6 mb-12">
+<div className="grid md:grid-cols-4 gap-4 mb-8">
           {categories.map((category) => {
             const Icon = iconMap[category];
             return (
@@ -136,21 +136,21 @@ function CropGuidelinesPage() {
                 key={category}
                 onClick={() => setCurrentFilter(category)}
                 aria-pressed={currentFilter === category}
-                className={`p-6 rounded-xl text-center cursor-pointer transition-all duration-200 ${
+                className={`p-4 rounded-xl text-center cursor-pointer transition-all duration-200 ${
                   currentFilter === category
                     ? "bg-emerald-50 border border-emerald-300 shadow-lg shadow-emerald-200/80 scale-[1.01]"
                     : "bg-white border border-transparent hover:border-emerald-200 hover:bg-emerald-50"
                 }`}
               >
-                <Icon className="h-8 w-8 text-emerald-600 mx-auto mb-3" />
+                <Icon className="h-6 w-6 text-emerald-600 mx-auto mb-2" />
                 <h3
-                  className={`font-bold ${
+                  className={`font-bold text-sm ${
                     currentFilter === category
                       ? "text-emerald-800"
                       : "text-gray-800"
                   }`}
                 >
-                  {category === "all" ? "All Schemes" : category}
+                  {category === "all" ? "All" : category}
                 </h3>
               </button>
             );
@@ -171,7 +171,7 @@ function CropGuidelinesPage() {
           />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredGuidelines.map((guideline) => (
             <div
               key={guideline.id}
@@ -180,24 +180,24 @@ function CropGuidelinesPage() {
               <img
                 src={guideline.image}
                 alt={guideline.title}
-                className="w-full h-48 object-cover"
+                className="w-full h-40 object-cover"
               />
-              <div className="p-6">
+              <div className="p-4">
                 <span className="text-xs font-bold text-emerald-600 uppercase tracking-wide">
                   {guideline.category}
                 </span>
-                <h3 className="text-xl font-bold text-gray-800 mt-2 mb-3">
+                <h3 className="text-lg font-bold text-gray-800 mt-2 mb-2">
                   {guideline.title}
                 </h3>
-                <p className="text-gray-600 mb-4 text-sm">
+                <p className="text-gray-600 mb-3 text-sm line-clamp-2">
                   {guideline.excerpt}
                 </p>
                 <button
                   type="button"
                   onClick={() => showGuidelineDetail(guideline)}
-                  className="text-emerald-600 font-bold hover:text-emerald-700 flex items-center"
+                  className="text-emerald-600 font-bold hover:text-emerald-700 flex items-center text-sm"
                 >
-                  Read More <ArrowRight className="ml-2 h-4 w-4" />
+                  Read More <ArrowRight className="ml-1 h-3 w-3" />
                 </button>
               </div>
             </div>
@@ -217,41 +217,41 @@ function CropGuidelinesPage() {
           aria-modal="true"
           onClick={closeGuidelineModal}
         >
-          <div
-            className="w-full max-w-5xl overflow-hidden rounded-[32px] border border-emerald-100 bg-white shadow-2xl"
+<div
+            className="w-full max-w-4xl overflow-hidden rounded-[24px] border border-emerald-100 bg-white shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="relative bg-emerald-700/10 px-6 py-5 sm:px-8 sm:py-6">
+            <div className="relative bg-emerald-700/10 px-4 py-4 sm:px-6 sm:py-6">
               <button
                 type="button"
                 onClick={closeGuidelineModal}
-                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-emerald-50 hover:text-emerald-700"
+                className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-emerald-50 hover:text-emerald-700"
                 aria-label="Close details"
               >
                 ✕
               </button>
-              <div className="grid gap-6 lg:grid-cols-[1.25fr_0.85fr]">
-                <div className="overflow-hidden rounded-[28px] bg-slate-100">
+              <div className="grid gap-4 lg:grid-cols-[1.25fr_0.85fr]">
+                <div className="overflow-hidden rounded-[24px] bg-slate-100">
                   <img
                     src={selectedGuideline.image}
                     alt={selectedGuideline.title}
-                    className="h-80 w-full object-cover"
+                    className="h-64 w-full object-cover"
                   />
                 </div>
-                <div className="space-y-4 px-0 py-2 sm:px-2 sm:py-0">
-                  <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-700">
+                <div className="space-y-3 px-0 py-1 sm:px-2 sm:py-0">
+                  <span className="inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-700">
                     {selectedGuideline.category}
                   </span>
-                  <h2 className="text-3xl font-bold text-slate-900">
+                  <h2 className="text-2xl font-bold text-slate-900">
                     {selectedGuideline.title}
                   </h2>
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-slate-600 leading-relaxed text-sm">
                     {selectedGuideline.content}
                   </p>
-                  <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
                     <button
                       type="button"
-                      className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
+                      className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
                       onClick={(event) => {
                         event.preventDefault();
                         if (selectedGuideline.pdfUrl) {
@@ -264,12 +264,12 @@ function CropGuidelinesPage() {
                     <button
                       type="button"
                       onClick={closeGuidelineModal}
-                      className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
+                      className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
                     >
                       Close
                     </button>
                   </div>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-xs text-slate-500">
                     Download PDF to read full article.
                   </p>
                 </div>
