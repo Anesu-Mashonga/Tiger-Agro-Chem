@@ -82,7 +82,7 @@ function GalleryPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
+<div className="grid md:grid-cols-3 lg:grid-cols-6 gap-2 mb-6">
           {categories.map((category) => {
             const Icon = iconMap[category];
             return (
@@ -91,15 +91,15 @@ function GalleryPage() {
                 key={category}
                 onClick={() => setCurrentFilter(category)}
                 aria-pressed={currentFilter === category}
-                className={`p-4 rounded-xl text-center cursor-pointer transition-all duration-200 ${
+                className={`p-3 rounded-xl text-center cursor-pointer transition-all duration-200 ${
                   currentFilter === category
                     ? "bg-emerald-50 border border-emerald-300 shadow-lg shadow-emerald-200/80 scale-[1.01]"
                     : "bg-white border border-transparent hover:border-emerald-200 hover:bg-emerald-50"
                 }`}
               >
-                <Icon className="h-6 w-6 text-emerald-600 mx-auto mb-2" />
+                <Icon className="h-5 w-5 text-emerald-600 mx-auto mb-1" />
                 <h3
-                  className={`font-bold text-sm ${
+                  className={`font-bold text-xs ${
                     currentFilter === category
                       ? "text-emerald-800"
                       : "text-gray-800"
@@ -126,7 +126,7 @@ function GalleryPage() {
           />
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredGalleries.map((gallery) => (
             <div
               key={gallery.id}
@@ -137,22 +137,22 @@ function GalleryPage() {
                 <img
                   src={gallery.media}
                   alt={gallery.description || "Gallery image"}
-                  className="w-full h-64 object-cover transition-transform duration-300 hover:scale-105"
+                  className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end">
-                  <div className="p-4 text-white">
-                    <span className="text-xs font-bold uppercase tracking-wide bg-emerald-600 px-2 py-1 rounded">
+                  <div className="p-3 text-white">
+                    <span className="text-xs font-bold uppercase tracking-wide bg-emerald-600 px-1.5 py-0.5 rounded">
                       {gallery.category}
                     </span>
-                    <p className="mt-2 text-sm line-clamp-2">{gallery.description}</p>
+                    <p className="mt-1 text-xs line-clamp-2">{gallery.description}</p>
                   </div>
                 </div>
               </div>
-              <div className="p-4">
+              <div className="p-3">
                 <span className="text-xs font-bold text-emerald-600 uppercase tracking-wide">
                   {gallery.category}
                 </span>
-                <p className="text-gray-600 mt-2 text-sm line-clamp-2">
+                <p className="text-gray-600 mt-1 text-xs line-clamp-2">
                   {gallery.description || "No description available"}
                 </p>
               </div>
@@ -174,15 +174,15 @@ function GalleryPage() {
           aria-modal="true"
           onClick={closeGalleryModal}
         >
-          <div
-            className="w-full max-w-4xl overflow-hidden rounded-[32px] border border-emerald-100 bg-white shadow-2xl"
+<div
+            className="w-full max-w-4xl overflow-hidden rounded-[24px] border border-emerald-100 bg-white shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="relative">
               <button
                 type="button"
                 onClick={closeGalleryModal}
-                className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-emerald-50 hover:text-emerald-700"
+                className="absolute right-3 top-3 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:bg-emerald-50 hover:text-emerald-700"
                 aria-label="Close details"
               >
                 ✕
@@ -191,20 +191,20 @@ function GalleryPage() {
                 <img
                   src={selectedGallery.media}
                   alt={selectedGallery.description || "Gallery image"}
-                  className="w-full max-h-[70vh] object-contain"
+                  className="w-full max-h-[60vh] object-contain"
                 />
               </div>
-              <div className="p-6 space-y-4">
-                <span className="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-700">
+              <div className="p-4 space-y-3">
+                <span className="inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-700">
                   {selectedGallery.category}
                 </span>
-                <p className="text-slate-700 leading-relaxed text-lg">
+                <p className="text-slate-700 leading-relaxed text-sm">
                   {selectedGallery.description || "No description available"}
                 </p>
                 <button
                   type="button"
                   onClick={closeGalleryModal}
-                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
+                  className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
                 >
                   Close
                 </button>
