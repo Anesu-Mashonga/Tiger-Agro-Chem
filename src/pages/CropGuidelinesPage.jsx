@@ -117,7 +117,7 @@ function CropGuidelinesPage() {
       <div className="bg-gradient-to-r from-emerald-800 to-emerald-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Crop protection Scheme
+            Crop Protection Scheme
           </h1>
           <p className="text-xl text-emerald-100 max-w-2xl">
             Expert agricultural advice and best practices for successful

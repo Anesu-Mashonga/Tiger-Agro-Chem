@@ -5,7 +5,7 @@ import logo from "./Tiger Agro Chem log.png";
 
 const navItems = [
   { to: "/products", label: "Products" },
-  { to: "/guidelines", label: "Crop protection Scheme" },
+  { to: "/guidelines", label: "Crop Protection Scheme" },
   { to: "/events", label: "Events" },
   { to: "/testimonials", label: "Testimonials" },
   { to: "/gallery", label: "Gallery" },

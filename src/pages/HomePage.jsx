@@ -333,13 +333,11 @@ function HomePage() {
                 Leading Agricultural Supplier
               </div>
               <h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6">
-                Growing Success <br />
+                We Grow Well <br />
                 <span className="text-amber-300">Together</span>
               </h1>
               <p className="text-xl text-emerald-100 mb-8 leading-relaxed">
-                Premium agrochemicals, fertilizers, and crop protection
-                solutions for modern farming. Empowering Zimbabwean farmers with
-                quality products and expert guidance.
+                Premium agrochemicals and biostimulators, expert guidance. With quality and cost-effective Crop Protection Scheme for modern farming.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
@@ -381,17 +379,6 @@ function HomePage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center p-6 rounded-2xl bg-emerald-50 card-hover">
-              <div className="bg-emerald-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Sprout className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">
-                Quality Seeds
-              </h3>
-              <p className="text-gray-600">
-                Certified high-yield seeds for maximum productivity
-              </p>
-            </div>
             <div className="text-center p-6 rounded-2xl bg-amber-50 card-hover">
               <div className="bg-amber-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ShieldCheck className="h-8 w-8 text-white" />
@@ -400,7 +387,7 @@ function HomePage() {
                 Crop Protection
               </h3>
               <p className="text-gray-600">
-                Effective pesticides and herbicides for healthy crops
+                Cost effective pesticides.
               </p>
             </div>
             <div className="text-center p-6 rounded-2xl bg-emerald-50 card-hover">
@@ -408,10 +395,10 @@ function HomePage() {
                 <FlaskConical className="h-8 w-8 text-white" />
               </div>
               <h3 className="text-xl font-bold text-gray-800 mb-2">
-                Fertilizers
+                Biostimulators
               </h3>
               <p className="text-gray-600">
-                Balanced nutrition for healthier, higher-yield crops
+                Balanced Content of essential micro nutrients necessary for the plant growth and yield maximization
               </p>
             </div>
             <div className="text-center p-6 rounded-2xl bg-amber-50 card-hover">
@@ -422,7 +409,7 @@ function HomePage() {
                 Expert Advice
               </h3>
               <p className="text-gray-600">
-                Practical farming guidance from experienced agronomists
+                Good agronomic practice from local and international seasoned agronomists
               </p>
             </div>
           </div>
@@ -498,10 +485,10 @@ function HomePage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <p className="uppercase text-amber-200 font-semibold mb-4">
-                Crop protection Scheme
+                Crop Protection Scheme
               </p>
               <h2 className="text-4xl font-bold mb-4">
-                Trusted advice for stronger yields
+                Cost effective pest control program for a healthy crop
               </h2>
               <p className="text-lg text-emerald-100 mb-8">
                 Explore best practices for planting, fertilization, and pest
@@ -511,7 +498,7 @@ function HomePage() {
                 to="/guidelines"
                 className="bg-white text-emerald-700 px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition shadow-lg"
               >
-                Read Crop protection Scheme
+                Read Crop Protection Scheme
               </Link>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -548,8 +535,7 @@ function HomePage() {
                 Events & Training
               </h2>
               <p className="text-lg text-gray-600">
-                Join us for workshops, field days, and training sessions
-                designed to improve your farming practices.
+                Join us for workshops, field days and training sessions to learn more.
               </p>
             </div>
             <Link
@@ -603,8 +589,7 @@ function HomePage() {
               What Our Customers Say
             </h2>
             <p className="text-xl text-gray-600">
-              Real feedback from farmers who trust Tiger Agrochem for products,
-              training, and crop support.
+              Feedback from farmers who are using Avgust products , services and Crop Protection Scheme.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">

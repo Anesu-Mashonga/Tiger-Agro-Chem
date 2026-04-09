@@ -137,7 +137,7 @@ function Footer() {
                   </li>
                   <li>
                     <a href="/guidelines" className="footer-link">
-                      Crop protection scheme
+                      Crop Protection Scheme
                     </a>
                   </li>
                   <li>
