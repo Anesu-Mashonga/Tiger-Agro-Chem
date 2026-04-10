@@ -24,11 +24,45 @@ const socialLinks = [
   },
 ];
 
+const contactItems = [
+  {
+    href: "mailto:sales@tigeragrochem.co.zw",
+    Icon: Mail,
+    text: "sales@tigeragrochem.co.zw",
+  },
+  {
+    href: "tel:+263242799008",
+    Icon: Phone,
+    text: "Tel: +263 242 799 008",
+  },
+  {
+    href: "tel:+263710938772",
+    Icon: Phone,
+    text: "Mobile: +263 710 938 772",
+  },
+  {
+    href: "tel:+263773998545",
+    Icon: Phone,
+    text: "Mobile: +263 773 998 545",
+  },
+];
+
+const quickLinks = [
+  { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
+  { href: "/guidelines", label: "Crop Protection Scheme" },
+  { href: "/events", label: "Events" },
+  { href: "/testimonials", label: "Testimonials" },
+  { href: "/about", label: "About Us" },
+  { href: "/contact", label: "Contact Us" },
+];
+
 function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-main">
+          {/* Map Section */}
           <div className="footer-map">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3798.88367108688!2d31.0512147!3d-17.7971635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1931a575965efa13%3A0xd8c643fa192fdbf5!2sTiger%20Agro%20Chem!5e0!3m2!1sen!2szw!4v1774972222755!5m2!1sen!2szw"
@@ -42,130 +76,85 @@ function Footer() {
             />
           </div>
 
+          {/* Brand and Social Section */}
           <div className="footer-content">
-            <div className="footer-grid">
-              <div className="footer-brand">
-                <div className="footer-brand-top">
-                  <img
-                    src={logo}
-                    alt="Tiger Agro Chem logo"
-                    className="footer-logo"
-                  />
-                  <div>
-                    <h2 className="footer-brand-title">Tiger Agrochem</h2>
-                    <p className="footer-brand-tagline">
-                      Trusted crop protection and agricultural support across
-                      Zimbabwe.
-                    </p>
-                  </div>
-                </div>
-
-                <p className="footer-text">
-                  We supply growers with quality farm inputs, expert guidance, and
-                  reliable service throughout Harare and beyond.
-                </p>
-
-                <address className="footer-address">
-                  <strong>Address</strong>
-                  <br />
-                  2 Sandringham Drive,
-                  <br />
-                  Alexandra Park, Harare - Zimbabwe
-                </address>
-
-                <div className="footer-social">
-                  {socialLinks.map(({ name, href, Icon }) => (
-                    <a
-                      key={name}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={name}
-                      className="footer-social-link"
-                    >
-                      <Icon className="h-5 w-5" />
-                    </a>
-                  ))}
+            <div className="footer-brand-section">
+              <div className="footer-brand-header">
+                <img
+                  src={logo}
+                  alt="Tiger Agro Chem logo"
+                  className="footer-logo"
+                />
+                <div>
+                  <h2 className="footer-brand-title">Tiger Agrochem</h2>
+                  <p className="footer-brand-tagline">
+                    Trusted crop protection and agricultural support across Zimbabwe.
+                  </p>
                 </div>
               </div>
 
-              <div className="footer-block">
+              <p className="footer-description">
+                We supply growers with quality farm inputs, expert guidance, and
+                reliable service throughout Harare and beyond.
+              </p>
+
+              <address className="footer-address">
+                <strong>Address</strong>
+                <br />
+                2 Sandringham Drive,
+                <br />
+                Alexandra Park, Harare - Zimbabwe
+              </address>
+
+              <div className="footer-social">
+                {socialLinks.map(({ name, href, Icon }) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    className="footer-social-link"
+                  >
+                    <Icon className="h-5 w-5" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Contact and Quick Links Grid */}
+            <div className="footer-links-grid">
+              <div className="footer-links-column">
                 <h3 className="footer-heading">Contact</h3>
                 <ul className="footer-list">
-                  <li>
-                    <a
-                      href="mailto:sales@tigeragrochem.co.zw"
-                      className="footer-link"
-                    >
-                      <Mail className="h-4 w-4 mr-2" />
-                      sales@tigeragrochem.co.zw
-                    </a>
-                  </li>
-                  <li>
-                    <a href="tel:+263242799008" className="footer-link">
-                      <Phone className="h-4 w-4 mr-2" />
-                      Tel: +263 242 799 008
-                    </a>
-                  </li>
-                  <li>
-                    <a href="tel:+263710938772" className="footer-link">
-                      <Phone className="h-4 w-4 mr-2" />
-                      Mobile: +263 710 938 772
-                    </a>
-                  </li>
-                  <li>
-                    <a href="tel:+263773998545" className="footer-link">
-                      <Phone className="h-4 w-4 mr-2" />
-                      Mobile: +263 773 998 545
-                    </a>
-                  </li>
+                  {contactItems.map(({ href, Icon, text }) => (
+                    <li key={text}>
+                      <a href={href} className="footer-link">
+                        <Icon className="footer-link-icon" />
+                        <span className="footer-link-text">{text}</span>
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
-              <div className="footer-block">
+              <div className="footer-links-column">
                 <h3 className="footer-heading">Quick links</h3>
                 <ul className="footer-list">
-                  <li>
-                    <a href="/" className="footer-link">
-                      Home
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/products" className="footer-link">
-                      Products
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/guidelines" className="footer-link">
-                      Crop Protection Scheme
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/events" className="footer-link">
-                      Events
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/testimonials" className="footer-link">
-                      Testimonials
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/about" className="footer-link">
-                      About Us
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/contact" className="footer-link">
-                      Contact Us
-                    </a>
-                  </li>
+                  {quickLinks.map(({ href, label }) => (
+                    <li key={href}>
+                      <a href={href} className="footer-link footer-link-simple">
+                        {label}
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Bottom Bar */}
         <div className="footer-bottom">
           <p>© 2026 Tiger Agrochem. All rights reserved.</p>
           <p>
@@ -174,6 +163,7 @@ function Footer() {
               href="https://niytto-tech.netlify.app"
               target="_blank"
               rel="noopener noreferrer"
+              className="footer-bottom-link"
             >
               Niytto Tech
             </a>
