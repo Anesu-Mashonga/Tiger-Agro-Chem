@@ -138,7 +138,8 @@ function Footer() {
                 </ul>
               </div>
 
-              <div className="footer-links-column">
+              {/* Added hidden-mobile class here to hide this column on mobile */}
+              <div className="footer-links-column hidden-mobile">
                 <h3 className="footer-heading">Quick links</h3>
                 <ul className="footer-list">
                   {quickLinks.map(({ href, label }) => (
