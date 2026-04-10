@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { LayoutGrid, Building2, Factory, Users, Heart, UserCheck } from "lucide-react";
-import { API_HOST, buildApiUrl, normalizeMediaUrl } from "../utils/api";
+import { LayoutGrid, Factory, Users, UserCheck, ChevronDown } from "lucide-react";
+import { buildApiUrl, normalizeMediaUrl } from "../utils/api";
 
-const categories = ["all", "CSR", "Factory", "Field Days", "Sponsorship", "Staff"];
+const categories = ["all", "Factory", "Field Days", "Staff"];
 const GALLERIES_API = buildApiUrl("galleries");
 
 function GalleryPage() {
@@ -10,6 +10,7 @@ function GalleryPage() {
   const [galleries, setGalleries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGallery, setSelectedGallery] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const normalizeGallery = (item) => {
@@ -55,10 +56,8 @@ function GalleryPage() {
 
   const iconMap = {
     all: LayoutGrid,
-    CSR: Heart,
     Factory: Factory,
     "Field Days": Users,
-    Sponsorship: Building2,
     Staff: UserCheck,
   };
 
@@ -68,6 +67,10 @@ function GalleryPage() {
 
   const closeGalleryModal = () => setSelectedGallery(null);
 
+  const getCategoryDisplayName = (category) => {
+    return category === "all" ? "All" : category;
+  };
+
   return (
     <div>
       <div className="bg-gradient-to-r from-emerald-800 to-emerald-600 text-white py-16">
@@ -76,13 +79,14 @@ function GalleryPage() {
             Our Gallery
           </h1>
           <p className="text-xl text-emerald-100 max-w-2xl">
-            Explore moments from our CSR initiatives, factory operations, field days, sponsorships, and team.
+            Explore moments from our factory operations, field days, and team activities.
           </p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-<div className="grid md:grid-cols-3 lg:grid-cols-6 gap-2 mb-6">
+        {/* Desktop Category Filters */}
+        <div className="hidden md:grid md:grid-cols-4 gap-2 mb-6">
           {categories.map((category) => {
             const Icon = iconMap[category];
             return (
@@ -112,21 +116,80 @@ function GalleryPage() {
           })}
         </div>
 
-        <div className="mb-8">
-          <label htmlFor="gallery-search" className="sr-only">
-            Search galleries
-          </label>
-          <input
-            id="gallery-search"
-            type="search"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Search galleries by description..."
-            className="w-full rounded-full border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200"
-          />
+        {/* Search and Mobile Filter Row */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-8">
+          {/* Search Input */}
+          <div className="flex-1">
+            <label htmlFor="gallery-search" className="sr-only">
+              Search galleries
+            </label>
+            <input
+              id="gallery-search"
+              type="search"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Search galleries by description..."
+              className="w-full rounded-full border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+            />
+          </div>
+
+          {/* Mobile Category Dropdown */}
+          <div className="relative md:hidden">
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="w-full sm:w-48 flex items-center justify-between px-4 py-3 bg-white border border-slate-300 rounded-full text-sm text-slate-700 shadow-sm hover:border-emerald-300 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200 transition"
+            >
+              <span className="flex items-center gap-2">
+                {(() => {
+                  const Icon = iconMap[currentFilter];
+                  return <Icon className="h-4 w-4 text-emerald-600" />;
+                })()}
+                <span>{getCategoryDisplayName(currentFilter)}</span>
+              </span>
+              <ChevronDown className={`h-4 w-4 text-slate-500 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsDropdownOpen(false)}
+                />
+                <div className="absolute right-0 mt-2 w-full sm:w-56 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50">
+                  {categories.map((category) => {
+                    const Icon = iconMap[category];
+                    return (
+                      <button
+                        key={category}
+                        type="button"
+                        onClick={() => {
+                          setCurrentFilter(category);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm transition ${
+                          currentFilter === category
+                            ? "bg-emerald-50 text-emerald-700 font-medium"
+                            : "text-slate-700 hover:bg-slate-50"
+                        }`}
+                      >
+                        <Icon className="h-4 w-4 text-emerald-600" />
+                        <span>{getCategoryDisplayName(category)}</span>
+                        {currentFilter === category && (
+                          <span className="ml-auto text-emerald-600">✓</span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
-<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* Gallery Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredGalleries.map((gallery) => (
             <div
               key={gallery.id}
@@ -167,6 +230,7 @@ function GalleryPage() {
         )}
       </div>
 
+      {/* Gallery Modal */}
       {selectedGallery && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-sm"
@@ -174,7 +238,7 @@ function GalleryPage() {
           aria-modal="true"
           onClick={closeGalleryModal}
         >
-<div
+          <div
             className="w-full max-w-4xl overflow-hidden rounded-[24px] border border-emerald-100 bg-white shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
@@ -226,6 +290,7 @@ function GalleryPage() {
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;
+          line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
         }

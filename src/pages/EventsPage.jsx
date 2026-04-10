@@ -159,8 +159,7 @@ function EventsPage() {
             Events & Training
           </h1>
           <p className="text-xl text-amber-100 max-w-2xl">
-            Join us for workshops, field days, and training sessions designed to
-            improve your farming practices.
+            Join us for workshops, field days and training sessions to learn more.
           </p>
         </div>
       </div>
