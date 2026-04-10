@@ -20,52 +20,29 @@ import {
 
 const teamMembers = [
   {
-    name: "John Moyo",
-    role: "Managing Director",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop",
-    bio: "With over 20 years of experience in agricultural business, John leads Tiger Agrochem with a vision for sustainable farming solutions across Zimbabwe.",
-    linkedin: "#",
-    email: "john@tigeragrochem.co.zw",
+    name: "David Tigere",
+    role: "Chief Executive Officer",
+    image: "../src/img/david.jpg",
   },
   {
-    name: "Sarah Chikwanha",
+    name: "Tawanda Mutenure",
+    role: "General Manager",
+    image: "../src/img/tawanda.jpg",
+  },
+  {
+    name: "Wonderful Manyonganise",
     role: "Chief Agronomist",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop",
-    bio: "Sarah brings 15 years of agronomic expertise, helping farmers maximize yields through science-based crop protection strategies.",
-    linkedin: "#",
-    email: "sarah@tigeragrochem.co.zw",
+    image: "../src/img/wonderfull.jpg",
   },
   {
-    name: "David Ncube",
-    role: "Sales Director",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
-    bio: "David leads our sales team with passion, ensuring every farmer gets the right products and advice for their specific needs.",
-    linkedin: "#",
-    email: "david@tigeragrochem.co.zw",
+    name: "Angirayi Njeni",
+    role: "Regional Technical Agronomist",
+    image: "../src/img/angirai.jpg",
   },
   {
-    name: "Grace Mupfudze",
-    role: "Operations Manager",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
-    bio: "Grace ensures smooth operations across all departments, maintaining our commitment to quality and customer satisfaction.",
-    linkedin: "#",
-    email: "grace@tigeragrochem.co.zw",
-  },
-  {
-    name: "Michael Zimuto",
-    role: "Technical Support Lead",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-    bio: "Michael provides expert technical guidance to farmers, helping them implement effective crop protection programs.",
-    linkedin: "#",
-    email: "michael@tigeragrochem.co.zw",
-  },
-  {
-    name: "Tendai Madziva",
-    role: "Marketing Manager",
-    image: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&h=400&fit=crop",
-    bio: "Tendai connects our solutions with farmers through innovative marketing and educational initiatives.",
-    linkedin: "#",
-    email: "tendai@tigeragrochem.co.zw",
+    name: "Tinashe John",
+    role: "Regional Technical Agronomist",
+    image: "../src/img/tinashe.jpg",
   },
 ];
 
@@ -137,12 +114,6 @@ const stats = [
 ];
 
 function AboutUsPage() {
-  const [expandedMember, setExpandedMember] = useState(null);
-
-  const toggleMember = (index) => {
-    setExpandedMember(expandedMember === index ? null : index);
-  };
-
   return (
     <div className="animate-fade-in">
       {/* Hero Section */}
@@ -398,67 +369,29 @@ function AboutUsPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-gray-100"
-              >
-                <div className="relative">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-64 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-xl font-bold text-white">
-                      {member.name}
-                    </h3>
-                    <p className="text-emerald-300 font-medium">
-                      {member.role}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <button
-                    onClick={() => toggleMember(index)}
-                    className="w-full flex items-center justify-between text-left text-gray-600 hover:text-emerald-600 transition"
-                  >
-                    <span className="font-medium">Learn more</span>
-                    {expandedMember === index ? (
-                      <ChevronUp className="h-5 w-5" />
-                    ) : (
-                      <ChevronDown className="h-5 w-5" />
-                    )}
-                  </button>
-
-                  {expandedMember === index && (
-                    <div className="mt-4 animate-fade-in">
-                      <p className="text-gray-600 mb-4">{member.bio}</p>
-                      <div className="flex space-x-3">
-                        <a
-                          href={member.linkedin}
-                          className="bg-gray-100 p-2 rounded-full hover:bg-emerald-100 transition"
-                          aria-label={`${member.name} LinkedIn`}
-                        >
-                          <Linkedin className="h-5 w-5 text-gray-600 hover:text-emerald-600" />
-                        </a>
-                        <a
-                          href={`mailto:${member.email}`}
-                          className="bg-gray-100 p-2 rounded-full hover:bg-emerald-100 transition"
-                          aria-label={`Email ${member.name}`}
-                        >
-                          <Mail className="h-5 w-5 text-gray-600 hover:text-emerald-600" />
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+  {teamMembers.map((member, index) => (
+    <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+      <div className="relative aspect-[3/4] overflow-hidden">
+        <img
+          src={member.image}
+          alt={member.name}
+          className="absolute inset-0 w-full h-full object-cover object-top"
+        />
+        {/* Text Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div className="absolute bottom-6 left-6 right-6">
+          <h3 className="text-2xl font-bold text-white mb-1">
+            {member.name}
+          </h3>
+          <p className="text-emerald-300 font-semibold text-lg">
+            {member.role}
+          </p>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
         </div>
       </section>
 
