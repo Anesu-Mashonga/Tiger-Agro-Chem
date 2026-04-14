@@ -13,6 +13,7 @@ import {
   ChevronRight,
   Leaf,
 } from "lucide-react";
+import agroDrones from "../img/agrodrones.jpg"; 
 import { API_HOST, buildApiUrl, normalizeMediaUrl } from "../utils/api";
 
 const PRODUCTS_API = buildApiUrl("products");
@@ -187,7 +188,7 @@ function HomePage() {
                 <span className="text-amber-400">Together</span>
               </h1>
               <p className="text-xl text-emerald-100 mb-8 leading-relaxed max-w-xl">
-                Premium agrochemicals and biostimulators, expert guidance. With quality and cost-effective Crop Protection Scheme for modern farming.
+                Premium agrochemicals and biostimulators, expert guidance. With quality and cost-effective Crop Protection Scheme for modern .
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/products" className="bg-amber-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-amber-600 transition shadow-lg text-center flex items-center justify-center gap-2">
@@ -201,7 +202,7 @@ function HomePage() {
             <div className="hidden md:block relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500">
                 <img 
-                  src="./src/img/agrodrones.jpg" 
+                  src={agroDrones} 
                   alt="Farming" 
                   className="w-full h-[400px] object-cover"
                 />
