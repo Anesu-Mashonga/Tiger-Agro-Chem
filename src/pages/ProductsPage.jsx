@@ -22,12 +22,6 @@ function ProductsPage() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const formatPrice = (value) => {
-    if (value === null || value === undefined || value === "") return "";
-    const parsed = Number(value);
-    return Number.isNaN(parsed) ? "" : `$${parsed.toFixed(2)}`;
-  };
-
   useEffect(() => {
     const normalizeImage = (image) => {
       if (!image) return "";
@@ -50,7 +44,6 @@ function ProductsPage() {
         id: product.id || attrs.id,
         name: attrs.Name || attrs.name || attrs.Title || attrs.title || "",
         category: attrs.category || attrs.Category || "",
-        price: formatPrice(attrs.Price ?? attrs.price ?? ""),
         image: normalizeImage(attrs.product_image),
         description: attrs.Description || attrs.description || "",
         composition: attrs.Composition || attrs.composition || "",
@@ -134,7 +127,6 @@ function ProductsPage() {
 
         {/* Search and Mobile Filter Row */}
         <div className="flex flex-col sm:flex-row gap-3 mb-8">
-          {/* Search Input */}
           <div className="flex-1">
             <div className="relative w-full">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -148,7 +140,6 @@ function ProductsPage() {
             </div>
           </div>
 
-          {/* Mobile Category Dropdown */}
           <div className="relative md:hidden">
             <button
               type="button"
@@ -231,16 +222,13 @@ function ProductsPage() {
                   <p className="text-gray-600 text-xs mb-3 flex-1 line-clamp-2">
                     {product.composition}
                   </p>
-                  <div className="flex justify-between items-center pt-2 border-t border-gray-100 mt-auto">
-                    <span className="text-lg font-bold text-emerald-700">
-                      {product.price}
-                    </span>
+                  <div className="flex justify-end items-center pt-2 border-t border-gray-100 mt-auto">
                     <button
                       type="button"
                       onClick={() => showProductDetail(product)}
                       className="bg-emerald-600 text-white px-3 py-1.5 rounded-lg font-semibold text-sm hover:bg-emerald-700 transition"
                     >
-                      View
+                      View Details
                     </button>
                   </div>
                 </div>
@@ -289,28 +277,19 @@ function ProductsPage() {
                   <p className="text-slate-600 leading-relaxed text-sm">
                     {selectedProduct.description}
                   </p>
-                  <div className="mt-3">
-                    <span className="text-2xl font-bold text-emerald-700">
-                      {selectedProduct.price}
-                    </span>
-                  </div>
-                  <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-                    <button
-                      type="button"
-                      className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
-                      onClick={(event) => {
-                        event.preventDefault();
-                        alert(
-                          `Thank you for your interest in ${selectedProduct.name}. Please contact us at +263 123 456 789 or visit our store.`,
-                        );
-                      }}
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <a
+                      href={`https://wa.me/263773416214?text=Hi, I am interested in ${selectedProduct.name}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
                     >
-                      Contact to Order
-                    </button>
+                      Inquire via WhatsApp
+                    </a>
                     <button
                       type="button"
                       onClick={closeProductModal}
-                      className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
+                      className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-emerald-300 hover:text-emerald-700"
                     >
                       Close
                     </button>

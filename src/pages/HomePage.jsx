@@ -29,13 +29,6 @@ function HomePage() {
   const [events, setEvents] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // Helper: format price
-  const formatPrice = (value) => {
-    if (value === null || value === undefined || value === "") return "";
-    const parsed = Number(value);
-    return Number.isNaN(parsed) ? "" : `$${parsed.toFixed(2)}`;
-  };
-
   // Normalize image (supports Strapi v4/v5)
   const normalizeImage = (image) => {
     if (!image) return "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=800";
@@ -62,7 +55,6 @@ function HomePage() {
       id: product.id || attrs.id,
       name: attrs.Name || attrs.name || attrs.Title || attrs.title || "",
       category: attrs.category || attrs.Category || "",
-      price: formatPrice(attrs.Price ?? attrs.price ?? ""),
       image: normalizeImage(attrs.product_image || attrs.image),
       description: attrs.Description || attrs.description || "",
       composition: attrs.Composition || attrs.composition || "",
@@ -131,7 +123,6 @@ function HomePage() {
       .catch((err) => console.error("Error fetching products:", err));
 
     // Fetch guidelines
-    fetch(`${PRODUCTS_API}?populate=*`) // Using PRODUCTS_API as fallback or assuming GUIDELINES_API is set
     fetch(`${GUIDELINES_API}?populate=*`)
       .then((res) => res.json())
       .then((json) => {
@@ -178,7 +169,7 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* ========== RESTORED GREEN HERO SECTION ========== */}
+      {/* ========== HERO SECTION ========== */}
       <section className="relative bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-600 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -309,8 +300,7 @@ function HomePage() {
                 <div className="p-6">
                   <h3 className="font-bold text-slate-800 text-lg mb-2">{product.name}</h3>
                   <p className="text-slate-500 text-sm line-clamp-2 mb-4">{product.composition}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-2xl font-bold text-emerald-700">{product.price}</span>
+                  <div className="flex justify-end items-center">
                     <button className="py-2 px-4 bg-slate-50 text-slate-700 font-bold rounded-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                       View Details
                     </button>
@@ -479,9 +469,6 @@ function HomePage() {
                   </span>
                   <h2 className="text-3xl font-bold text-slate-900">{selectedProduct.name}</h2>
                   <p className="text-slate-600 leading-relaxed">{selectedProduct.description}</p>
-                  <div className="mt-4">
-                    <span className="text-3xl font-bold text-emerald-700">{selectedProduct.price}</span>
-                  </div>
                   <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <a
                       href={`https://wa.me/263773416214?text=Hi, I am interested in ${selectedProduct.name}`}
