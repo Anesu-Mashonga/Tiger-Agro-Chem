@@ -126,8 +126,8 @@ function CropGuidelinesPage() {
             Crop Protection Scheme
           </h1>
           <p className="text-xl text-emerald-100 max-w-2xl">
-            Expert agricultural advice and best practices for successful
-            farming.
+            Cost effective pest control program for a healthy crop.
+Explore best practices for planting, fertilization, and pest control from our agronomy team.
           </p>
         </div>
       </div>
