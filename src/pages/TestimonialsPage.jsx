@@ -100,8 +100,7 @@ function TestimonialsPage() {
             Customer Testimonials
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Hear from farmers and agronomists who trust Tiger Agrochem for
-            products, training, and crop support.
+            Feedback from farmers who are using Avgust products, services and Crop Protection Scheme.
           </p>
         </div>
       </div>

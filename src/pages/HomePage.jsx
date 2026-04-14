@@ -11,6 +11,7 @@ import {
   Star,
   X,
   ChevronRight,
+  Leaf,
 } from "lucide-react";
 import { API_HOST, buildApiUrl, normalizeMediaUrl } from "../utils/api";
 
@@ -27,13 +28,6 @@ function HomePage() {
   const [testimonialsLoading, setTestimonialsLoading] = useState(true);
   const [events, setEvents] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-
-  // Helper: format price
-  const formatPrice = (value) => {
-    if (value === null || value === undefined || value === "") return "";
-    const parsed = Number(value);
-    return Number.isNaN(parsed) ? "" : `$${parsed.toFixed(2)}`;
-  };
 
   // Normalize image (supports Strapi v4/v5)
   const normalizeImage = (image) => {
@@ -61,7 +55,6 @@ function HomePage() {
       id: product.id || attrs.id,
       name: attrs.Name || attrs.name || attrs.Title || attrs.title || "",
       category: attrs.category || attrs.Category || "",
-      price: formatPrice(attrs.Price ?? attrs.price ?? ""),
       image: normalizeImage(attrs.product_image || attrs.image),
       description: attrs.Description || attrs.description || "",
       composition: attrs.Composition || attrs.composition || "",
@@ -176,41 +169,60 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* ========== NEW HERO SECTION (with background image) ========== */}
-      <section className="relative h-[70vh] md:h-[80vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80"
-            className="w-full h-full object-cover"
-            alt="Farming background"
-          />
-          <div className="absolute inset-0 bg-emerald-900/60" />
+      {/* ========== HERO SECTION ========== */}
+      <section className="relative bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-600 text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white"></path>
+          </svg>
         </div>
-        <div className="container mx-auto px-4 z-10 text-white">
-          <div className="max-w-3xl">
-            <div className="inline-block bg-amber-400 text-emerald-900 px-4 py-1 rounded-full text-sm font-bold mb-6">
-              Leading Agricultural Supplier
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 relative z-10">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="animate-fade-in">
+              <div className="inline-block bg-amber-400 text-emerald-900 px-4 py-1 rounded-full text-sm font-bold mb-6">
+                Leading Agricultural Supplier
+              </div>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+                We Grow Well <br />
+                <span className="text-amber-400">Together</span>
+              </h1>
+              <p className="text-xl text-emerald-100 mb-8 leading-relaxed max-w-xl">
+                Premium agrochemicals and biostimulators, expert guidance. With quality and cost-effective Crop Protection Scheme for modern farming.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/products" className="bg-amber-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-amber-600 transition shadow-lg text-center flex items-center justify-center gap-2">
+                  Explore Products <ArrowRight size={20} />
+                </Link>
+                <Link to="/guidelines" className="bg-white text-emerald-700 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition shadow-lg text-center">
+                  View Guidelines
+                </Link>
+              </div>
             </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              We Grow Well <br />
-              <span className="text-amber-400">Together</span>
-            </h1>
-            <p className="text-lg md:text-xl mb-8 text-emerald-50 max-w-xl">
-              Premium agrochemicals and biostimulators, expert guidance. With quality and cost-effective Crop Protection Scheme for modern farming.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/products" className="bg-emerald-600 hover:bg-emerald-700 px-8 py-4 rounded-full font-bold transition flex items-center gap-2 shadow-lg">
-                Explore Products <ArrowRight size={20} />
-              </Link>
-              <Link to="/guidelines" className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 px-8 py-4 rounded-full font-bold transition">
-                View Guidelines
-              </Link>
+            <div className="hidden md:block relative">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl transform rotate-2 hover:rotate-0 transition duration-500">
+                <img 
+                  src="./src/img/agrodrones.jpg" 
+                  alt="Farming" 
+                  className="w-full h-[400px] object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl border border-emerald-50">
+                <div className="flex items-center space-x-3">
+                  <div className="bg-emerald-100 p-3 rounded-full">
+                    <Award className="h-6 w-6 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-gray-800">{new Date().getFullYear() - 2018}+</p>
+                    <p className="text-sm text-gray-600">Years Experience</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ========== NEW SERVICE CARDS (modern look) ========== */}
+      {/* ========== SERVICE CARDS ========== */}
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -256,7 +268,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ========== LATEST PRODUCTS (modern grid, 4 items) ========== */}
+      {/* ========== LATEST PRODUCTS ========== */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
@@ -288,8 +300,7 @@ function HomePage() {
                 <div className="p-6">
                   <h3 className="font-bold text-slate-800 text-lg mb-2">{product.name}</h3>
                   <p className="text-slate-500 text-sm line-clamp-2 mb-4">{product.composition}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-2xl font-bold text-emerald-700">{product.price}</span>
+                  <div className="flex justify-end items-center">
                     <button className="py-2 px-4 bg-slate-50 text-slate-700 font-bold rounded-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                       View Details
                     </button>
@@ -301,7 +312,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ========== CROP PROTECTION SCHEME (original section, modernized) ========== */}
+      {/* ========== CROP PROTECTION SCHEME ========== */}
       <section className="py-20 bg-emerald-900 text-white">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -330,7 +341,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ========== EVENTS & TRAINING (original, modern styling) ========== */}
+      {/* ========== EVENTS & TRAINING ========== */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-end mb-12">
@@ -366,7 +377,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ========== TESTIMONIALS (original with stars, modernized) ========== */}
+      {/* ========== TESTIMONIALS ========== */}
       <section className="py-20 bg-amber-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -404,7 +415,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ========== CTA SECTION (original, modern) ========== */}
+      {/* ========== CTA SECTION ========== */}
       <section className="py-20 bg-emerald-600">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-white mb-6">Ready to Improve Your Yield?</h2>
@@ -420,7 +431,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* ========== CONTACT MODAL (original) ========== */}
+      {/* ========== CONTACT MODAL ========== */}
       {isContactOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-8 relative">
@@ -440,7 +451,7 @@ function HomePage() {
         </div>
       )}
 
-      {/* ========== PRODUCT MODAL (with WhatsApp inquiry) ========== */}
+      {/* ========== PRODUCT MODAL ========== */}
       {selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-sm" role="dialog" aria-modal="true" onClick={closeProductModal}>
           <div className="w-full max-w-5xl overflow-hidden rounded-[32px] border border-emerald-100 bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
@@ -458,9 +469,6 @@ function HomePage() {
                   </span>
                   <h2 className="text-3xl font-bold text-slate-900">{selectedProduct.name}</h2>
                   <p className="text-slate-600 leading-relaxed">{selectedProduct.description}</p>
-                  <div className="mt-4">
-                    <span className="text-3xl font-bold text-emerald-700">{selectedProduct.price}</span>
-                  </div>
                   <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <a
                       href={`https://wa.me/263773416214?text=Hi, I am interested in ${selectedProduct.name}`}
