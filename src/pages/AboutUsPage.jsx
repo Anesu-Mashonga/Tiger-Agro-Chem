@@ -17,11 +17,11 @@ import {
   FlaskConical,
   TrendingUp,
 } from "lucide-react";
-import angiraiImg from "../src/img/Angirai.jpg";
-import davidImg from "../src/img/David.jpg";
-import tawandaImg from "../src/img/Tawanda.jpg";
-import tinasheImg from "../src/img/Tinashe.jpg";
-import wonderfulImg from "../src/img/Wonderfull.jpg";
+import angiraiImg from "../img/Angirai.jpg";
+import davidImg from "../img/David.jpg";
+import tawandaImg from "../img/Tawanda.jpg";
+import tinasheImg from "../img/Tinashe.jpg";
+import wonderfulImg from "../img/Wonderfull.jpg";
 
 const teamMembers = [
   {
