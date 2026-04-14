@@ -17,32 +17,37 @@ import {
   FlaskConical,
   TrendingUp,
 } from "lucide-react";
+import angiraiImg from "../src/img/Angirai.jpg";
+import davidImg from "../src/img/David.jpg";
+import tawandaImg from "../src/img/Tawanda.jpg";
+import tinasheImg from "../src/img/Tinashe.jpg";
+import wonderfulImg from "../src/img/Wonderfull.jpg";
 
 const teamMembers = [
   {
     name: "David Tigere",
     role: "Chief Executive Officer",
-    image: "../src/img/David.jpg",
+    image: davidImg,
   },
   {
     name: "Tawanda Mutenure",
     role: "General Manager",
-    image: "../src/img/Tawanda.jpg",
+    image: tawandaImg,
   },
   {
     name: "Wonderful Manyonganise",
     role: "Chief Agronomist",
-    image: "../src/img/Wonderfull.jpg",
+    image: wonderfulImg,
   },
   {
     name: "Angirayi Njeni",
     role: "Regional Technical Agronomist",
-    image: "../src/img/Angirai.jpg",
+    image: angiraiImg,
   },
   {
     name: "Tinashe John",
     role: "Regional Technical Agronomist",
-    image: "../src/img/Tinashe.jpg",
+    image: tinasheImg,
   },
 ];
 
