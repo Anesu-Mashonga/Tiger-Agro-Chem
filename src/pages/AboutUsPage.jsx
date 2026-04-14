@@ -22,27 +22,27 @@ const teamMembers = [
   {
     name: "David Tigere",
     role: "Chief Executive Officer",
-    image: "../src/img/david.jpg",
+    image: "../src/img/David.jpg",
   },
   {
     name: "Tawanda Mutenure",
     role: "General Manager",
-    image: "../src/img/tawanda.jpg",
+    image: "../src/img/Tawanda.jpg",
   },
   {
     name: "Wonderful Manyonganise",
     role: "Chief Agronomist",
-    image: "../src/img/wonderfull.jpg",
+    image: "../src/img/Wonderfull.jpg",
   },
   {
     name: "Angirayi Njeni",
     role: "Regional Technical Agronomist",
-    image: "../src/img/angirai.jpg",
+    image: "../src/img/Angirai.jpg",
   },
   {
     name: "Tinashe John",
     role: "Regional Technical Agronomist",
-    image: "../src/img/tinashe.jpg",
+    image: "../src/img/Tinashe.jpg",
   },
 ];
 
