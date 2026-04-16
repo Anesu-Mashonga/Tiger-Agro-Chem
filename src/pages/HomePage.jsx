@@ -472,7 +472,7 @@ function HomePage() {
                   <p className="text-slate-600 leading-relaxed">{selectedProduct.description}</p>
                   <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <a
-                      href={`https://wa.me/263773416214?text=Hi, I am interested in ${selectedProduct.name}`}
+                      href={`https://wa.me/263710938772?text=Hi, I am interested in ${selectedProduct.name}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"

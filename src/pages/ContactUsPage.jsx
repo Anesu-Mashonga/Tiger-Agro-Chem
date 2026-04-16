@@ -66,7 +66,7 @@ const socialLinks = [
   },
   {
     name: "WhatsApp",
-    href: "https://wa.me/263773416214",
+    href: "https://wa.me/263710938772",
     Icon: MessageCircle,
     color: "bg-green-500 hover:bg-green-600",
   },
@@ -364,7 +364,7 @@ function ContactUsPage() {
                       <br />
                       Mobile: +263 710 938 772
                       <br />
-                      Mobile: +263 773 998 545
+                      Mobile: +263 710 938 775
                     </p>
                   </div>
                 </div>

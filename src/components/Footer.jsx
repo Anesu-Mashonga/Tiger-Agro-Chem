@@ -14,7 +14,7 @@ const socialLinks = [
   },
   {
     name: "WhatsApp",
-    href: "https://wa.me/263773416214",
+    href: "https://wa.me/263710938772",
     Icon: MessageCircle,
   },
   {
@@ -41,9 +41,9 @@ const contactItems = [
     text: "Mobile: +263 710 938 772",
   },
   {
-    href: "tel:+263773998545",
+    href: "tel:+263710938775",
     Icon: Phone,
-    text: "Mobile: +263 773 998 545",
+    text: "Mobile: +263 710 938 775",
   },
 ];
 
