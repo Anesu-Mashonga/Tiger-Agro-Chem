@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { ChevronDown, Search } from "lucide-react";
-import { buildApiUrl, API_HOST } from "../utils/api";
+import { buildApiUrl } from "../utils/api";
 
-const PRODUCTS_API = buildApiUrl("products");
+const PRODUCTS_API = buildApiUrl("product");
 
 const categories = [
   "all",
@@ -23,47 +23,44 @@ function ProductsPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const normalizeImage = (image) => {
-      if (!image) return "";
-      if (typeof image === "string") return image;
-      const url =
-        image.url ||
-        image?.data?.attributes?.url ||
-        image?.data?.url ||
-        image?.data?.attributes?.formats?.large?.url ||
-        image?.data?.attributes?.formats?.medium?.url ||
-        image?.data?.attributes?.formats?.small?.url ||
-        image?.data?.attributes?.formats?.thumbnail?.url;
-      if (!url) return "";
-      return url.startsWith("http") ? url : `${API_HOST}${url}`;
+    const normalizeImage = (product) => {
+      // WordPress: featured media via _embed
+      const media = product?._embedded?.["wp:featuredmedia"]?.[0];
+      if (media?.source_url) return media.source_url;
+      // ACF image field (return type: Array, URL, or ID)
+      const acfImage = product?.acf?.product_image;
+      if (typeof acfImage === "string" && acfImage) return acfImage;
+      if (acfImage?.url) return acfImage.url;
+      if (acfImage?.sizes?.large) return acfImage.sizes.large;
+      if (acfImage?.sizes?.medium) return acfImage.sizes.medium;
+      if (acfImage?.sizes?.thumbnail) return acfImage.sizes.thumbnail;
+      return "";
     };
 
     const normalizeProduct = (product) => {
-      const attrs = product.attributes || product;
+      const acf = product.acf || {};
       return {
-        id: product.id || attrs.id,
-        name: attrs.Name || attrs.name || attrs.Title || attrs.title || "",
-        category: attrs.category || attrs.Category || "",
-        image: normalizeImage(attrs.product_image),
-        description: attrs.Description || attrs.description || "",
-        composition: attrs.Composition || attrs.composition || "",
+        id: product.id,
+        name: acf.name || acf.Name || product.title?.rendered || "",
+        category: acf.category || acf.Category || "",
+        image: normalizeImage(product),
+        description:
+          acf.description || acf.Description || product.content?.rendered || "",
+        composition: acf.composition || acf.Composition || "",
       };
     };
 
-    const normalizeResponse = (data) => {
-      if (!data) return [];
-      const items = Array.isArray(data) ? data : data.data || [];
-      return items.map(normalizeProduct);
-    };
-
-    fetch(`${PRODUCTS_API}?populate=product_image`)
+    fetch(`${PRODUCTS_API}?_embed&per_page=100`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to fetch products (${res.status})`);
         }
         return res.json();
       })
-      .then((json) => setProducts(normalizeResponse(json)))
+      .then((data) => {
+        const items = Array.isArray(data) ? data : [];
+        setProducts(items.map(normalizeProduct));
+      })
       .catch((error) => {
         console.error("Error fetching products:", error);
         setProducts([]);
@@ -151,7 +148,9 @@ function ProductsPage() {
                   {getCategoryDisplayName(currentCategory)}
                 </span>
               </span>
-              <ChevronDown className={`h-4 w-4 text-slate-500 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`h-4 w-4 text-slate-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
+              />
             </button>
 
             {/* Dropdown Menu */}
@@ -206,11 +205,23 @@ function ProductsPage() {
                 className="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-gray-100 flex flex-col"
               >
                 <div className="relative bg-gray-100">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-32 object-contain"
-                  />
+                  {product.image ? (
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-32 object-contain"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                        e.currentTarget.nextSibling.style.display = "flex";
+                      }}
+                    />
+                  ) : null}
+                  <div
+                    className="w-full h-32 items-center justify-center text-gray-300 text-5xl"
+                    style={{ display: product.image ? "none" : "flex" }}
+                  >
+                    📦
+                  </div>
                   <span className="absolute top-2 right-2 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-xs font-bold">
                     {product.category}
                   </span>
@@ -261,11 +272,23 @@ function ProductsPage() {
               </button>
               <div className="grid gap-4 lg:grid-cols-[1.25fr_0.85fr]">
                 <div className="overflow-hidden rounded-[24px] bg-slate-100">
-                  <img
-                    src={selectedProduct.image}
-                    alt={selectedProduct.name}
-                    className="h-64 w-full object-contain"
-                  />
+                  {selectedProduct.image ? (
+                    <img
+                      src={selectedProduct.image}
+                      alt={selectedProduct.name}
+                      className="h-64 w-full object-contain"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                        e.currentTarget.nextSibling.style.display = "flex";
+                      }}
+                    />
+                  ) : null}
+                  <div
+                    className="h-64 w-full items-center justify-center text-gray-300 text-7xl"
+                    style={{ display: selectedProduct.image ? "none" : "flex" }}
+                  >
+                    📦
+                  </div>
                 </div>
                 <div className="space-y-3 px-0 py-1 sm:px-2 sm:py-0">
                   <span className="inline-flex rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-700">

@@ -7,10 +7,10 @@ import {
   ArrowRight,
   ChevronDown,
 } from "lucide-react";
-import { API_HOST, buildApiUrl, normalizeMediaUrl } from "../utils/api";
+import { buildApiUrl } from "../utils/api";
 
 const categories = ["all", "Planting", "Pest Control", "Fertilization"];
-const GUIDELINES_API = buildApiUrl("guidelines");
+const GUIDELINES_API = buildApiUrl("scheme");
 
 function CropGuidelinesPage() {
   const [currentFilter, setCurrentFilter] = useState("all");
@@ -20,65 +20,50 @@ function CropGuidelinesPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const normalizeImage = (image) => {
-      if (!image) return "";
-      if (typeof image === "string") return image;
-
-      let asset = Array.isArray(image) ? image[0] : image;
-      if (asset?.data) {
-        asset = Array.isArray(asset.data) ? asset.data[0] : asset.data;
-      }
-      const attrs = asset?.attributes || asset;
-      const url =
-        attrs?.url ||
-        attrs?.data?.url ||
-        attrs?.formats?.large?.url ||
-        attrs?.formats?.medium?.url ||
-        attrs?.formats?.small?.url ||
-        attrs?.formats?.thumbnail?.url;
-      if (!url) return "";
-      if (url.startsWith("//")) return `https:${url}`;
-      return url.startsWith("http") ? url : `${API_HOST}${url}`;
+    const normalizeImage = (item) => {
+      const media = item?._embedded?.["wp:featuredmedia"]?.[0];
+      if (media?.source_url) return media.source_url;
+      const acfImage = item?.acf?.image || item?.acf?.guideline_image;
+      if (typeof acfImage === "string" && acfImage) return acfImage;
+      if (acfImage?.url) return acfImage.url;
+      if (acfImage?.sizes?.large) return acfImage.sizes.large;
+      if (acfImage?.sizes?.medium) return acfImage.sizes.medium;
+      return "";
     };
 
     const normalizeGuideline = (item) => {
-      const attrs = item.attributes || item;
+      const acf = item.acf || {};
+      const pdfField = acf.pdf_url || acf.pdfUrl || acf.pdf || acf.pdf_document;
       return {
-        id: item.id || attrs.id,
-        title: attrs.title || attrs.Title || "",
-        category: attrs.category || attrs.Category || "",
-        image: normalizeMediaUrl(
-          attrs.image || attrs.guideline_image || attrs.guidelineImage,
-        ),
+        id: item.id,
+        title: acf.title || acf.Title || item.title?.rendered || "",
+        category: acf.category || acf.Category || "",
+        image: normalizeImage(item),
         excerpt:
-          attrs.excerpt ||
-          attrs.Excerpt ||
-          attrs.description ||
-          attrs.Description ||
+          acf.excerpt ||
+          acf.Excerpt ||
+          acf.description ||
+          acf.Description ||
+          item.excerpt?.rendered ||
           "",
         content:
-          attrs.content ||
-          attrs.Content ||
-          attrs.description ||
-          attrs.Description ||
+          acf.content ||
+          acf.Content ||
+          acf.description ||
+          acf.Description ||
+          item.content?.rendered ||
           "",
-        pdfUrl: normalizeMediaUrl(
-          attrs.pdfUrl ||
-            attrs.pdf_url ||
-            attrs.pdf ||
-            attrs.pdf_document ||
-            attrs.pdfDocument,
-        ),
+        pdfUrl: typeof pdfField === "string" ? pdfField : pdfField?.url || "",
       };
     };
 
     const normalizeGuidelinesResponse = (data) => {
       if (!data) return [];
-      const items = Array.isArray(data) ? data : data.data || [];
+      const items = Array.isArray(data) ? data : [];
       return items.map(normalizeGuideline);
     };
 
-    fetch(`${GUIDELINES_API}?populate=*`)
+    fetch(`${GUIDELINES_API}?_embed&per_page=100`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to fetch guidelines (${res.status})`);
@@ -126,8 +111,9 @@ function CropGuidelinesPage() {
             Crop Protection Scheme
           </h1>
           <p className="text-xl text-emerald-100 max-w-2xl">
-            Cost effective pest control program for a healthy crop.
-Explore best practices for planting, fertilization, and pest control from our agronomy team.
+            Cost effective pest control program for a healthy crop. Explore best
+            practices for planting, fertilization, and pest control from our
+            agronomy team.
           </p>
         </div>
       </div>
@@ -195,7 +181,9 @@ Explore best practices for planting, fertilization, and pest control from our ag
                 })()}
                 <span>{getCategoryDisplayName(currentFilter)}</span>
               </span>
-              <ChevronDown className={`h-4 w-4 text-slate-500 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`h-4 w-4 text-slate-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
+              />
             </button>
 
             {/* Dropdown Menu */}

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Calendar, MapPin, CalendarX } from "lucide-react";
 import { buildApiUrl } from "../utils/api";
 
-const EVENTS_API = buildApiUrl("events");
+const EVENTS_API = buildApiUrl("event");
 
 function EventsPage() {
   const [currentTab, setCurrentTab] = useState("upcoming");
@@ -22,9 +22,9 @@ function EventsPage() {
 
   useEffect(() => {
     const normalizeEvent = (item) => {
-      const attrs = item.attributes || item;
+      const acf = item.acf || {};
       const dateValue =
-        attrs.date || attrs.event_date || attrs.eventDate || attrs.Date || "";
+        acf.date || acf.event_date || acf.eventDate || acf.Date || "";
       const parsedDate = new Date(dateValue);
       const isValidDate = !Number.isNaN(parsedDate.valueOf());
       const today = new Date();
@@ -40,30 +40,36 @@ function EventsPage() {
         : "upcoming";
 
       return {
-        id: item.id || attrs.id,
-        title: attrs.title || attrs.Title || attrs.name || attrs.Name || "",
+        id: item.id,
+        title:
+          acf.title ||
+          acf.Title ||
+          acf.name ||
+          acf.Name ||
+          item.title?.rendered ||
+          "",
         date: dateValue,
         location:
-          attrs.location ||
-          attrs.Location ||
-          attrs.venue ||
-          attrs.Venue ||
-          attrs.address ||
-          attrs.Address ||
+          acf.location ||
+          acf.Location ||
+          acf.venue ||
+          acf.Venue ||
+          acf.address ||
           "",
         tag:
-          attrs.tag ||
-          attrs.Tag ||
-          attrs.type ||
-          attrs.Type ||
-          attrs.category ||
-          attrs.Category ||
+          acf.tag ||
+          acf.Tag ||
+          acf.type ||
+          acf.Type ||
+          acf.category ||
+          acf.Category ||
           "",
         description:
-          attrs.description ||
-          attrs.Description ||
-          attrs.details ||
-          attrs.Details ||
+          acf.description ||
+          acf.Description ||
+          acf.details ||
+          acf.Details ||
+          item.content?.rendered ||
           "",
         status: normalizedStatus === "past" ? "past" : "upcoming",
       };
@@ -71,11 +77,11 @@ function EventsPage() {
 
     const normalizeResponse = (data) => {
       if (!data) return [];
-      const items = Array.isArray(data) ? data : data.data || [];
+      const items = Array.isArray(data) ? data : [];
       return items.map(normalizeEvent);
     };
 
-    fetch(`${EVENTS_API}?populate=*`)
+    fetch(`${EVENTS_API}?_embed&per_page=100`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to fetch events (${res.status})`);
@@ -159,7 +165,8 @@ function EventsPage() {
             Events & Training
           </h1>
           <p className="text-xl text-amber-100 max-w-2xl">
-            Join us for workshops, field days and training sessions to learn more.
+            Join us for workshops, field days and training sessions to learn
+            more.
           </p>
         </div>
       </div>

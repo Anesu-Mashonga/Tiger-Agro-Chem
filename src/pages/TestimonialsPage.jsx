@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Quote, Star, StarHalf } from "lucide-react";
 import { buildApiUrl } from "../utils/api";
 
-const TESTIMONIALS_API = buildApiUrl("testimonials");
+const TESTIMONIALS_API = buildApiUrl("testimonial");
+const TESTIMONIALS_API_FALLBACK = buildApiUrl("testimonials");
 
 function TestimonialsPage() {
   const [testimonials, setTestimonials] = useState([]);
@@ -11,39 +12,40 @@ function TestimonialsPage() {
 
   useEffect(() => {
     const normalizeTestimonial = (item) => {
-      const attrs = item.attributes || item;
+      const acf = item.acf || {};
       return {
-        id: item.id || attrs.id,
+        id: item.id,
         name:
-          attrs.name ||
-          attrs.Name ||
-          attrs.title ||
-          attrs.fullName ||
+          acf.name ||
+          acf.Name ||
+          acf.title ||
+          acf.fullName ||
+          item.title?.rendered ||
           "Anonymous",
         role:
-          attrs.profession ||
-          attrs.Profession ||
-          attrs.role ||
-          attrs.Role ||
-          attrs.position ||
-          attrs.job ||
-          attrs.occupation ||
+          acf.profession ||
+          acf.Profession ||
+          acf.role ||
+          acf.Role ||
+          acf.position ||
+          acf.job ||
+          acf.occupation ||
           "",
         content:
-          attrs.content ||
-          attrs.Content ||
-          attrs.testimonial ||
-          attrs.Testimonial ||
-          attrs.review ||
-          attrs.description ||
-          attrs.Description ||
+          acf.content ||
+          acf.Content ||
+          acf.testimonial ||
+          acf.Testimonial ||
+          acf.review ||
+          acf.description ||
+          acf.Description ||
+          item.content?.rendered ||
           "",
         rating: Math.max(
           0,
           Math.min(
             5,
-            Math.round((Number(attrs.rating ?? attrs.Rating ?? 0) || 0) * 2) /
-              2,
+            Math.round((Number(acf.rating ?? acf.Rating ?? 0) || 0) * 2) / 2,
           ),
         ),
       };
@@ -51,28 +53,37 @@ function TestimonialsPage() {
 
     const normalizeResponse = (data) => {
       if (!data) return [];
-      const items = Array.isArray(data) ? data : data.data || [];
+      const items = Array.isArray(data) ? data : [];
       return items.map(normalizeTestimonial);
     };
 
-    fetch(`${TESTIMONIALS_API}?populate=*`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Failed to fetch testimonials (${res.status})`);
+    const fetchTestimonials = async () => {
+      const endpoints = [TESTIMONIALS_API, TESTIMONIALS_API_FALLBACK];
+
+      let lastError = null;
+      for (const endpoint of endpoints) {
+        try {
+          const res = await fetch(`${endpoint}?_embed&per_page=100`);
+          if (!res.ok) {
+            throw new Error(`Failed to fetch testimonials (${res.status})`);
+          }
+
+          const json = await res.json();
+          const normalized = normalizeResponse(json);
+          setTestimonials(normalized);
+          return;
+        } catch (error) {
+          lastError = error;
         }
-        return res.json();
-      })
-      .then((json) => {
-        const normalized = normalizeResponse(json);
-        setTestimonials(normalized);
-      })
-      .catch((error) => {
-        console.error("Error fetching testimonials:", error);
-        setHasError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      }
+
+      console.error("Error fetching testimonials:", lastError);
+      setHasError(true);
+    };
+
+    fetchTestimonials().finally(() => {
+      setLoading(false);
+    });
   }, []);
 
   const renderRatingStars = (rating) => {
@@ -100,7 +111,8 @@ function TestimonialsPage() {
             Customer Testimonials
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Feedback from farmers who are using Avgust products, services and Crop Protection Scheme.
+            Feedback from farmers who are using Avgust products, services and
+            Crop Protection Scheme.
           </p>
         </div>
       </div>

@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { CMS_ADMIN_URL } from "../config/cms";
 
 function AdminPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      window.location.href = 'https://clever-frogs-f2483126a1.strapiapp.com/admin/';
+      window.location.href = CMS_ADMIN_URL;
     }, 3000);
 
     return () => clearTimeout(timer);

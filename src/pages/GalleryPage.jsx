@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
-import { LayoutGrid, Factory, Users, UserCheck, ChevronDown } from "lucide-react";
-import { buildApiUrl, normalizeMediaUrl } from "../utils/api";
+import {
+  LayoutGrid,
+  Factory,
+  Users,
+  UserCheck,
+  ChevronDown,
+} from "lucide-react";
+import { buildApiUrl } from "../utils/api";
 
 const categories = ["all", "Factory", "Field Days", "Staff"];
-const GALLERIES_API = buildApiUrl("galleries");
+const GALLERIES_API = buildApiUrl("gallery");
 
 function GalleryPage() {
   const [currentFilter, setCurrentFilter] = useState("all");
@@ -13,25 +19,39 @@ function GalleryPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
+    const normalizeMediaImage = (item) => {
+      const media = item?._embedded?.["wp:featuredmedia"]?.[0];
+      if (media?.source_url) return media.source_url;
+      const acfMedia =
+        item?.acf?.gallery_media ||
+        item?.acf?.media ||
+        item?.acf?.image ||
+        item?.acf?.picture;
+      if (typeof acfMedia === "string" && acfMedia) return acfMedia;
+      if (acfMedia?.url) return acfMedia.url;
+      if (acfMedia?.sizes?.large) return acfMedia.sizes.large;
+      if (acfMedia?.sizes?.medium) return acfMedia.sizes.medium;
+      return "";
+    };
+
     const normalizeGallery = (item) => {
-      const attrs = item.attributes || item;
+      const acf = item.acf || {};
       return {
-        id: item.id || attrs.id,
-        category: attrs.category || attrs.Category || "",
-        description: attrs.description || attrs.Description || "",
-        media: normalizeMediaUrl(
-          attrs.gallery_media || attrs.media || attrs.image || attrs.picture
-        ),
+        id: item.id,
+        category: acf.category || acf.Category || "",
+        description:
+          acf.description || acf.Description || item.title?.rendered || "",
+        media: normalizeMediaImage(item),
       };
     };
 
     const normalizeGalleriesResponse = (data) => {
       if (!data) return [];
-      const items = Array.isArray(data) ? data : data.data || [];
+      const items = Array.isArray(data) ? data : [];
       return items.map(normalizeGallery);
     };
 
-    fetch(`${GALLERIES_API}?populate=*`)
+    fetch(`${GALLERIES_API}?_embed&per_page=100`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Failed to fetch galleries (${res.status})`);
@@ -75,11 +95,10 @@ function GalleryPage() {
     <div>
       <div className="bg-gradient-to-r from-emerald-800 to-emerald-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Our Gallery
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Gallery</h1>
           <p className="text-xl text-emerald-100 max-w-2xl">
-            Explore moments from our factory operations, field days, and team activities.
+            Explore moments from our factory operations, field days, and team
+            activities.
           </p>
         </div>
       </div>
@@ -147,7 +166,9 @@ function GalleryPage() {
                 })()}
                 <span>{getCategoryDisplayName(currentFilter)}</span>
               </span>
-              <ChevronDown className={`h-4 w-4 text-slate-500 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`h-4 w-4 text-slate-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
+              />
             </button>
 
             {/* Dropdown Menu */}
@@ -207,7 +228,9 @@ function GalleryPage() {
                     <span className="text-xs font-bold uppercase tracking-wide bg-emerald-600 px-1.5 py-0.5 rounded">
                       {gallery.category}
                     </span>
-                    <p className="mt-1 text-xs line-clamp-2">{gallery.description}</p>
+                    <p className="mt-1 text-xs line-clamp-2">
+                      {gallery.description}
+                    </p>
                   </div>
                 </div>
               </div>
