@@ -11,6 +11,7 @@ import { buildApiUrl } from "../utils/api";
 
 const categories = ["all", "Planting", "Pest Control", "Fertilization"];
 const GUIDELINES_API = buildApiUrl("scheme");
+const MEDIA_API = buildApiUrl("media");
 
 function CropGuidelinesPage() {
   const [currentFilter, setCurrentFilter] = useState("all");
@@ -34,6 +35,16 @@ function CropGuidelinesPage() {
     const normalizeGuideline = (item) => {
       const acf = item.acf || {};
       const pdfField = acf.pdf_url || acf.pdfUrl || acf.pdf || acf.pdf_document;
+      const pdfUrl =
+        typeof pdfField === "string"
+          ? pdfField
+          : pdfField?.url || pdfField?.link || "";
+      const pdfId =
+        typeof pdfField === "number"
+          ? pdfField
+          : typeof pdfField === "object" && pdfField?.id
+            ? pdfField.id
+            : null;
       return {
         id: item.id,
         title: acf.title || acf.Title || item.title?.rendered || "",
@@ -53,28 +64,52 @@ function CropGuidelinesPage() {
           acf.Description ||
           item.content?.rendered ||
           "",
-        pdfUrl: typeof pdfField === "string" ? pdfField : pdfField?.url || "",
+        pdfUrl,
+        _pdfId: pdfUrl ? null : pdfId,
       };
     };
 
-    const normalizeGuidelinesResponse = (data) => {
-      if (!data) return [];
-      const items = Array.isArray(data) ? data : [];
-      return items.map(normalizeGuideline);
-    };
-
-    fetch(`${GUIDELINES_API}?_embed&per_page=100`)
-      .then((res) => {
+    const fetchGuidelines = async () => {
+      try {
+        const res = await fetch(`${GUIDELINES_API}?_embed&per_page=100`);
         if (!res.ok) {
           throw new Error(`Failed to fetch guidelines (${res.status})`);
         }
-        return res.json();
-      })
-      .then((json) => setGuidelines(normalizeGuidelinesResponse(json)))
-      .catch((error) => {
+        const json = await res.json();
+        const items = Array.isArray(json) ? json : [];
+        const normalized = items.map(normalizeGuideline);
+
+        // Resolve any ACF file fields that returned a bare attachment ID
+        const unresolvedIds = [
+          ...new Set(normalized.map((g) => g._pdfId).filter(Boolean)),
+        ];
+        if (unresolvedIds.length > 0) {
+          const mediaRes = await fetch(
+            `${MEDIA_API}?include=${unresolvedIds.join(",")}&per_page=100`,
+          );
+          if (mediaRes.ok) {
+            const mediaItems = await mediaRes.json();
+            const mediaMap = Object.fromEntries(
+              mediaItems.map((m) => [m.id, m.source_url || ""]),
+            );
+            setGuidelines(
+              normalized.map((g) => ({
+                ...g,
+                pdfUrl: g.pdfUrl || (g._pdfId ? mediaMap[g._pdfId] || "" : ""),
+              })),
+            );
+            return;
+          }
+        }
+
+        setGuidelines(normalized);
+      } catch (error) {
         console.error("Error fetching crop guidelines:", error);
         setGuidelines([]);
-      });
+      }
+    };
+
+    fetchGuidelines();
   }, []);
 
   const filteredGuidelines = guidelines.filter((guideline) => {

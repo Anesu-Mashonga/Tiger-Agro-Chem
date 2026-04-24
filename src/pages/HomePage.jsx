@@ -100,7 +100,17 @@ function HomePage() {
     const acf = item.acf || {};
     const dateValue =
       acf.date || acf.event_date || acf.eventDate || acf.Date || "";
-    const parsedDate = new Date(dateValue);
+    // ACF date picker commonly returns YYYYMMDD without separators.
+    let parsedDate;
+    if (/^\d{8}$/.test(dateValue)) {
+      parsedDate = new Date(
+        Number(dateValue.slice(0, 4)),
+        Number(dateValue.slice(4, 6)) - 1,
+        Number(dateValue.slice(6, 8)),
+      );
+    } else {
+      parsedDate = new Date(dateValue);
+    }
     const isValidDate = !Number.isNaN(parsedDate.valueOf());
     const today = new Date();
     const normalizedStatus = isValidDate
@@ -122,7 +132,14 @@ function HomePage() {
         acf.Name ||
         item.title?.rendered ||
         "",
-      date: dateValue,
+      date: isValidDate
+        ? parsedDate.toLocaleDateString("en-GB", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        : dateValue,
+      sortDate: isValidDate ? parsedDate.valueOf() : Number.MAX_SAFE_INTEGER,
       location:
         acf.location ||
         acf.Location ||
@@ -250,7 +267,7 @@ function HomePage() {
         const upcomingEvents = eventsResult.value
           .map(normalizeEvent)
           .filter((event) => event.status === "upcoming")
-          .sort((a, b) => new Date(a.date) - new Date(b.date))
+          .sort((a, b) => a.sortDate - b.sortDate)
           .slice(0, 2);
         setEvents(upcomingEvents);
       } else {

@@ -25,7 +25,17 @@ function EventsPage() {
       const acf = item.acf || {};
       const dateValue =
         acf.date || acf.event_date || acf.eventDate || acf.Date || "";
-      const parsedDate = new Date(dateValue);
+      // ACF date picker returns "YYYYMMDD" (no separators) — parse it manually
+      let parsedDate;
+      if (/^\d{8}$/.test(dateValue)) {
+        parsedDate = new Date(
+          Number(dateValue.slice(0, 4)),
+          Number(dateValue.slice(4, 6)) - 1,
+          Number(dateValue.slice(6, 8)),
+        );
+      } else {
+        parsedDate = new Date(dateValue);
+      }
       const isValidDate = !Number.isNaN(parsedDate.valueOf());
       const today = new Date();
       const normalizedStatus = isValidDate
@@ -48,7 +58,13 @@ function EventsPage() {
           acf.Name ||
           item.title?.rendered ||
           "",
-        date: dateValue,
+        date: isValidDate
+          ? parsedDate.toLocaleDateString("en-GB", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          : dateValue,
         location:
           acf.location ||
           acf.Location ||
