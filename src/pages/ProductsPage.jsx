@@ -230,7 +230,7 @@ function ProductsPage() {
                   <h3 className="text-base font-bold text-gray-800 mb-2">
                     {product.name}
                   </h3>
-                  <p className="text-gray-600 text-xs mb-3 flex-1 line-clamp-2">
+                  <p className="text-gray-600 text-xs mb-3 flex-1 line-clamp-2 whitespace-pre-line">
                     {product.composition}
                   </p>
                   <div className="flex justify-end items-center pt-2 border-t border-gray-100 mt-auto">

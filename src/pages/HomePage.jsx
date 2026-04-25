@@ -480,7 +480,7 @@ function HomePage() {
                   <h3 className="font-bold text-slate-800 text-lg mb-2">
                     {product.name}
                   </h3>
-                  <p className="text-slate-500 text-sm line-clamp-2 mb-4">
+                  <p className="text-slate-500 text-sm line-clamp-2 whitespace-pre-line mb-4">
                     {product.composition}
                   </p>
                   <div className="flex justify-end items-center">

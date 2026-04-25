@@ -1,24 +1,14 @@
 import { useEffect, useState } from "react";
-import {
-  LayoutGrid,
-  Sprout,
-  Bug,
-  FlaskConical,
-  ArrowRight,
-  ChevronDown,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { buildApiUrl } from "../utils/api";
 
-const categories = ["all", "Planting", "Pest Control", "Fertilization"];
 const GUIDELINES_API = buildApiUrl("scheme");
 const MEDIA_API = buildApiUrl("media");
 
 function CropGuidelinesPage() {
-  const [currentFilter, setCurrentFilter] = useState("all");
   const [guidelines, setGuidelines] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGuideline, setSelectedGuideline] = useState(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const normalizeImage = (item) => {
@@ -113,30 +103,17 @@ function CropGuidelinesPage() {
   }, []);
 
   const filteredGuidelines = guidelines.filter((guideline) => {
-    const matchesCategory =
-      currentFilter === "all" || guideline.category === currentFilter;
     const matchesSearch = guideline.title
       .toLowerCase()
       .includes(searchTerm.trim().toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesSearch;
   });
-
-  const iconMap = {
-    all: LayoutGrid,
-    Planting: Sprout,
-    "Pest Control": Bug,
-    Fertilization: FlaskConical,
-  };
 
   const showGuidelineDetail = (guideline) => {
     setSelectedGuideline(guideline);
   };
 
   const closeGuidelineModal = () => setSelectedGuideline(null);
-
-  const getCategoryDisplayName = (category) => {
-    return category === "all" ? "All" : category;
-  };
 
   return (
     <div>
@@ -154,39 +131,7 @@ function CropGuidelinesPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Desktop Category Filters */}
-        <div className="hidden md:grid md:grid-cols-4 gap-4 mb-8">
-          {categories.map((category) => {
-            const Icon = iconMap[category];
-            return (
-              <button
-                type="button"
-                key={category}
-                onClick={() => setCurrentFilter(category)}
-                aria-pressed={currentFilter === category}
-                className={`p-4 rounded-xl text-center cursor-pointer transition-all duration-200 ${
-                  currentFilter === category
-                    ? "bg-emerald-50 border border-emerald-300 shadow-lg shadow-emerald-200/80 scale-[1.01]"
-                    : "bg-white border border-transparent hover:border-emerald-200 hover:bg-emerald-50"
-                }`}
-              >
-                <Icon className="h-6 w-6 text-emerald-600 mx-auto mb-2" />
-                <h3
-                  className={`font-bold text-sm ${
-                    currentFilter === category
-                      ? "text-emerald-800"
-                      : "text-gray-800"
-                  }`}
-                >
-                  {category === "all" ? "All" : category}
-                </h3>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Search and Mobile Filter Row */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-8">
+        <div className="mb-8">
           {/* Search Input */}
           <div className="flex-1">
             <label htmlFor="guideline-search" className="sr-only">
@@ -200,62 +145,6 @@ function CropGuidelinesPage() {
               placeholder="Search schemes by name..."
               className="w-full rounded-full border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200"
             />
-          </div>
-
-          {/* Mobile Category Dropdown */}
-          <div className="relative md:hidden">
-            <button
-              type="button"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-full sm:w-48 flex items-center justify-between px-4 py-3 bg-white border border-slate-300 rounded-full text-sm text-slate-700 shadow-sm hover:border-emerald-300 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200 transition"
-            >
-              <span className="flex items-center gap-2">
-                {(() => {
-                  const Icon = iconMap[currentFilter];
-                  return <Icon className="h-4 w-4 text-emerald-600" />;
-                })()}
-                <span>{getCategoryDisplayName(currentFilter)}</span>
-              </span>
-              <ChevronDown
-                className={`h-4 w-4 text-slate-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
-              />
-            </button>
-
-            {/* Dropdown Menu */}
-            {isDropdownOpen && (
-              <>
-                <div
-                  className="fixed inset-0 z-40"
-                  onClick={() => setIsDropdownOpen(false)}
-                />
-                <div className="absolute right-0 mt-2 w-full sm:w-56 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50">
-                  {categories.map((category) => {
-                    const Icon = iconMap[category];
-                    return (
-                      <button
-                        key={category}
-                        type="button"
-                        onClick={() => {
-                          setCurrentFilter(category);
-                          setIsDropdownOpen(false);
-                        }}
-                        className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm transition ${
-                          currentFilter === category
-                            ? "bg-emerald-50 text-emerald-700 font-medium"
-                            : "text-slate-700 hover:bg-slate-50"
-                        }`}
-                      >
-                        <Icon className="h-4 w-4 text-emerald-600" />
-                        <span>{category === "all" ? "All" : category}</span>
-                        {currentFilter === category && (
-                          <span className="ml-auto text-emerald-600">✓</span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              </>
-            )}
           </div>
         </div>
 
